@@ -1,0 +1,118 @@
+<%- include('./partials/header.ejs')  %>
+<%- include('./partials/navbar.ejs')  %>
+
+<div class="container learning-section" style="margin-bottom: calc(50px + 3vw);">
+    <div class="catagory mb-3 mb-lg-4">
+        <div class="d-flex align-items-center">
+           <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Home</h3>
+           <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+           <h3 class="mb-0 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">My Learning</h3>
+        </div>
+    </div>
+
+    <h1 class="mb-3 mb-lg-4" style="font-size: calc(1rem + 1vw);">My Learning</h1>
+
+    <div class="row">
+
+      <div class="col-12 col-lg-8">
+  
+        <% if (userEnrollInfo.enrolledCourses.length > 0) { %>
+          <% userEnrollInfo.enrolledCourses.forEach(course => { %>
+            <div class="card mb-3 border-0" onclick="window.location.href='/courses/single-course/enrolled/<%= course._id %>'">
+              <div class="row align-items-center g-0">
+                <div class="col-md-4">
+                  <div class="rounded-3 overflow-hidden bg-info" style="width: 100%; height: calc(180px + 1vw);">
+                    <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= course.image %>">
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body p-0 mt-3 mt-md-0 p-md-3">
+                    <h5 class="card-title" style="font-size: calc(1rem + 0.3vw);"><%= course.title %></h5>
+                    <p class="card-text text-body-secondary mb-2" style="font-size: calc(0.9rem + 0.1vw);">
+                      <%= course.description %>
+                    </p>
+      
+                    <div class="d-flex flex-wrap align-items-center">
+                      <p class="card-text text-body-secondary me-4 me-lg-5 mb-0" style="font-size: calc(0.9rem + 0.1vw);">
+                        Created By : <span class="text-dark fw-normal"><%= course.ownerName %></span>
+                      </p>
+                      <p class="card-text text-body-secondary" style="font-size: calc(0.9rem + 0.1vw);">
+                        Level : <span class="text-dark fw-normal"><%= course.level %></span>
+                      </p>
+                    </div>
+      
+                    <div class="col-12 d-flex flex-wrap align-items-center justify-content-between">
+                      <div class="d-flex align-items-center mb-1" style="font-size: calc(1rem + 0.1vw);">
+                        <p class="card-text text-body-secondary me-4 me-lg-5 mb-0" style="font-size: calc(0.9rem + 0.1vw);">
+                          Total Lectures : <span class="text-dark fw-normal"><%= course.totalLectures %></span>
+                        </p>
+                        <p class="card-text text-body-secondary me-4 me-lg-5 mb-0" style="font-size: calc(0.9rem + 0.1vw);">
+                          Language : <span class="text-dark fw-normal"><%= course.language %></span>
+                        </p>
+                      </div>
+                      <p class="mb-0">Start Course</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+          <% }); %>
+        <% } else { %>
+          <p class="mb-0 p-4 text-center text-body-secondary">
+            <span class="fs-5 fw-medium text-primary">Oops!</span><br>You're just one step away from unlocking your future—enroll in a course today!
+          </p>
+        <% } %>
+      </div>
+
+      <% if (userEnrollInfo.enrolledCourses.length > 0) { %>
+      <div class="col-12 col-lg-4">
+        <div class="border rounded-3 d-flex flex-column align-items-center p-3 py-4">
+          <div class="col-12"><h5>Let’s Keep Learning! 🚀</h5></div>
+          <p class="text-body-secondary">Access your active courses below. Track your progress, revisit lectures, and continue your learning journey anytime.</p>
+          <div class="col-12 d-flex align-items-center justify-content-between fw-medium">
+            <p>Total Progress</p>
+            <p>Courses <span style="font-size: 12px;">( <%= userEnrollInfo.enrolledCourses.length %> )</span></p>
+          </div>
+
+          <div class="progress-circle mb-3">
+            <svg width="200" height="200">
+              <circle class="background" cx="100" cy="100" r="90"></circle>
+              <circle class="foreground" cx="100" cy="100" r="90" stroke-dasharray="565" stroke-dashoffset="565"></circle>
+            </svg>
+            <div class="progress-text">
+              <span class="percentage fs-2 fw-medium">75%</span>
+            </div>
+          </div>
+
+          <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center justify-content-between text-primary"><div class="bg-primary rounded-circle me-2" style="width: 8px;height: 8px;"></div><span class="fw-medium" style="font-size: calc(0.8rem + 0.2vw);">75% Percentage</span></div>
+            <div class="d-flex align-items-center justify-content-between text-danger"><div class="bg-danger rounded-circle me-2" style="width: 8px;height: 8px;"></div><span class="fw-medium" style="font-size: calc(0.8rem + 0.2vw);">0% Percentage</span></div>
+          </div>
+
+          <p class="text-body-secondary mb-0">Unlock your certificate by watching 98% of the video. Progress is tracked, motivating full engagement and course completion.</p>
+
+
+        </div>
+      </div>
+      <% } %>
+        
+    </div>
+
+</div>
+
+<script>
+const progress = 75; // Replace with dynamic value
+
+const circle = document.querySelector('.foreground');
+const circumference = 2 * Math.PI * circle.r.baseVal.value;
+circle.style.strokeDasharray = circumference;
+
+const offset = circumference - (progress / 100) * circumference;
+circle.style.strokeDashoffset = offset;
+
+const percentage = document.querySelector('.percentage');
+percentage.textContent = `${progress}%`;
+</script>
+
+<%- include('./partials/footer.ejs')  %>

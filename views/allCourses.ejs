@@ -1,0 +1,423 @@
+<%- include('./partials/header.ejs')  %>
+<%- include('./partials/navbar.ejs')  %>
+
+
+<div class="courses-section pb-5">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-3 mb-3">
+
+                <div class="col-12 p-3 rounded-3" style="background-color: #D5EEFF;">
+
+                    <div class="col-12 d-md-none">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h4 class="fw-normal mb-0">Filter</h4>
+    
+                            <!-- Toggle Button (Visible only on screens smaller than 768px) -->
+                            <button class="btn btn-primary d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#filterMenu" aria-expanded="false" aria-controls="filterMenu">
+                              Menu
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filters Section -->
+                    <div class="collapse d-md-block mt-3 mt-md-0" id="filterMenu">
+
+                        <!-- Rating -->
+                        <div class="p-3 rounded-3 mb-3" style="background-color: #F0F9FF;">
+                          <h1 class="fw-normal mb-2" style="font-size: calc(1.1rem + 0.3vw);">Ratings</h1>
+                          <ul class="p-0 mb-1" aria-labelledby="ratingDropdown">
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="rating" id="filter-4.5">
+                                <img src="/icons/4.5-rating.svg">
+                                <p class="mb-0 ms-3" style="font-size: calc(15px);">4.5 & up</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="rating" id="filter-4.0">
+                                <img src="/icons/4-rating.svg">
+                                <p class="mb-0 ms-3" style="font-size: calc(15px);">4.0 & up</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="rating" id="filter-3.5">
+                                <img src="/icons/3.5-rating.svg">
+                                <p class="mb-0 ms-3" style="font-size: calc(15px);">3.5 & up</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="rating" id="filter-3.0">
+                                <img src="/icons/3-rating.svg">
+                                <p class="mb-0 ms-3" style="font-size: calc(15px);">3.0 & up</p>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <!-- Video Duration -->
+                        <div class="p-3 rounded-3 mb-3" style="background-color: #F0F9FF;">
+                          <h1 class="fw-normal mb-2" style="font-size: calc(1.1rem + 0.3vw);">Video duration</h1>
+                          <ul class="p-0 mb-1" aria-labelledby="videoDurationDropdown">
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="video" id="filter-0-1">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">0-1 hour</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="video" id="filter-1-3">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">1-3 hours</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="video" id="filter-3-6">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">3-6 hours</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="video" id="filter-6-17">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">6-17 hours</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="video" id="filter-17-plus">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">17+ hours</p>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <!-- Level -->
+                        <div class="p-3 rounded-3 mb-3" style="background-color: #F0F9FF;">
+                          <h1 class="fw-normal mb-2" style="font-size: calc(1.1rem + 0.3vw);">Levels</h1>
+                          <ul class="p-0 mb-1" aria-labelledby="vlevelDropdown">
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="level" id="filter-beginner">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">Beginner</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="level" id="filter-intermediate">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">Intermediate</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="level" id="filter-expert">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">Expert</p>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <!-- Language -->
+                        <div class="p-3 rounded-3 mb-3" style="background-color: #F0F9FF;">
+                          <h1 class="fw-normal mb-2" style="font-size: calc(1.1rem + 0.3vw);">Languages</h1>
+                          <ul class="p-0 mb-1" aria-labelledby="languageDropdown">
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="language" id="filter-english">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">English</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="language" id="filter-urdu">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">Urdu</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="language" id="filter-hindi">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">Hindi</p>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="p-3 rounded-3" style="background-color: #F0F9FF;">
+                          <h1 class="fw-normal mb-2" style="font-size: calc(1.1rem + 0.3vw);">Price</h1>
+                          <ul class="p-0 mb-1" aria-labelledby="priceDropdown">
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="price" id="filter-free">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">Free</p>
+                            </li>
+                            <li class="d-flex"><input class="form-check-input me-2 border-2 border-dark" type="checkbox" name="price" id="filter-paid">
+                                <p class="mb-0 ms-2" style="font-size: calc(15px);">Paid</p>
+                            </li>
+                          </ul>
+                        </div>
+                    
+                    </div>
+
+                    
+                </div>
+
+            </div>
+            
+            <div class="col-12 col-md-8 col-lg-8 col-xl-9">
+
+                <div class="col-12 p-3 rounded-3 position-relative" style="min-height: 210vh; background-color: #EBEBEB;">
+
+                    <div class="catagory mb-3">
+                        <div class="d-flex align-items-center">
+                           <h3 class="mb-0 me-3 select-category-name" style="font-size: calc(0.7rem + 0.4vw);">All Courses</h3>
+                           <img style="width: calc(4px + 0.1vw);" src="/icons/arrow-right.svg">
+                        </div>
+                    </div>
+
+                    <div class="col-12 p-3 rounded-3 mb-3 note" style="background-color: #E3E3E3;">
+                        <div class="row">
+                            <div class="col-12 col-lg-9">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb mb-2" style="font-size: calc(0.6rem + 0.4vw);">
+                                        <li class="breadcrumb-item active" aria-current="page">Learning path</li>
+                                        <li class="breadcrumb-item select-category-name">All Courses</li>
+                                    </ol>
+                                </nav>
+                                <h1 style="font-size: calc(0.8rem + 0.8vw);">Be a Good Learner with Our eLMS</h1>
+                                <p class="mb-0 me-xl-4 text-body-secondary" style="font-size: calc(0.6rem + 0.4vw);">Discover all-in-one learning with our Platform! From academics to creative skills, our courses are designed for every learner. Learn anytime, anywhere, and unlock your potential today & unlock endless possibilities for growth!</p>
+                            </div>
+    
+                            <div class="col-12 col-lg-3 d-flex justify-content-end">
+                                <img src="/images/note-image.svg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mb-3" style="font-size: calc(1rem + 0.3vw);">Courses for <span class="select-category-name">Learning</span> ( <%= courses.length %> )</h3>
+
+                    <div class="mb-5">
+                        <div class="row g-3">
+
+                            <% courses.reverse().forEach(course => { %>
+                               
+                                <div class="col-12 col-md-6 col-lg-4 col-xxl-3 courses" style="cursor: pointer;" data-language="<%= course.language %>" data-level="<%= course.level %>" data-price="<%= course.price %>" data-duration="<%= course.duration %>" data-rating="<%= course.rating %>">
+                                    <a class="course-link" href="/courses/single-course/<%= course._id %>">
+                                        <div class="card border p-2 rounded-3" style="background-color: #E3E3E3;">
+                                            <div class="card-img rounded-3 overflow-hidden mb-2 position-relative" style="height: 24vh;">
+                                                <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= course.image %>" alt="Course Image">
+                                                <div class="py-1 px-2 d-flex align-items-center position-absolute bottom-0 end-0" style="border-top-left-radius: 0.5rem;background-color: rgba(255, 255, 255, 0.728);">
+                                                    <img class="me-2" style="width: 11px;margin-bottom: 2px;" src="/icons/star.svg">
+                                                    <p class="mb-0" style="font-size: 14px;"><%= course.averageRating %> <span>(<%= course.totalReviews %>)</span></p>
+                                                </div>
+                                            </div>
+                                
+                                            <div class="card-body p-0">
+                                                <h5 class="card-title mb-1" style="font-size: 16px;"><%= course.title %></h5>
+                                                <p class="card-text text-body-secondary mb-1" style="font-size: calc(0.7rem);"><%= course.description %></p>
+                                                <p class="mb-1" style="font-size: 15px;"><span class="text-body-secondary">By </span><%= course.ownerName %></p>
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <img class="me-2" style="width: 14px;" src="/icons/progress-level.svg">
+                                                    <p class="mb-0" style="font-size: 15px;"><span class="text-body-secondary">Level : </span><%= course.level %></p>
+                                                </div>
+                                
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <p class="mb-0 me-2">$<%= course.price %></p>
+                                                    <p class="mb-0" style="color: rgb(2, 206, 2);"><s>$<%= course.discount.toFixed(2) %></s></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                
+                               
+                            <% }) %>
+  
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center position-absolute bottom-0 start-50 translate-middle">
+                        <button id="prevBtn" class="btn btn-secondary rounded-0 rounded-start-1" disabled>Previous</button>
+                        <div id="pagination" class="d-flex"></div>
+                        <button id="nextBtn" class="btn btn-primary rounded-0 rounded-end-1">Next</button>
+                    </div>                    
+                    
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- <script>
+    $(document).ready(function () {
+        function filterCourses() {
+            let selectedPrice = $('input[name="price"]:checked').attr('id');
+            let selectedLanguage = $('input[name="language"]:checked').attr('id');
+            let selectedLevel = $('input[name="level"]:checked').attr('id');
+            let selectedVideo = $('input[name="video"]:checked').attr('id');
+            let selectedRating = $('input[name="rating"]:checked').attr('id');
+
+            $('.courses').each(function () {
+                let price = parseFloat($(this).data('price'));
+                let language = $(this).data('language');
+                let level = $(this).data('level');
+                let duration = parseFloat($(this).data('duration'));
+                let rating = parseFloat($(this).data('rating'));
+
+                let priceMatch = (selectedPrice === 'filter-free' && price === 0) ||
+                                 (selectedPrice === 'filter-paid' && price > 0) ||
+                                 (!selectedPrice);  // Show all if no filter is selected
+
+                let languageMatch = (selectedLanguage === 'filter-english' && language === 'English') ||
+                                    (selectedLanguage === 'filter-urdu' && language === 'Urdu') ||
+                                    (selectedLanguage === 'filter-hindi' && language === 'Hindi') ||
+                                    (!selectedLanguage); // Show all if no filter is selected
+
+                let levelMatch = (selectedLevel === 'filter-beginner' && level === 'Beginner') ||
+                                 (selectedLevel === 'filter-intermediate' && level === 'Intermediate') ||
+                                 (selectedLevel === 'filter-expert' && level === 'Expert') ||
+                                 (!selectedLevel); // Show all if no filter is selected
+
+                let videoMatch = (selectedVideo === 'filter-0-1' && duration <= 1) ||
+                                 (selectedVideo === 'filter-1-3' && duration > 1 && duration <= 3) ||
+                                 (selectedVideo === 'filter-3-6' && duration > 3 && duration <= 6) ||
+                                 (selectedVideo === 'filter-6-17' && duration > 6 && duration <= 17) ||
+                                 (selectedVideo === 'filter-17-plus' && duration > 17) ||
+                                 (!selectedVideo); // Show all if no filter is selected
+
+                let ratingMatch = (selectedRating === 'filter-4.5' && rating >= 4.5) ||
+                                  (selectedRating === 'filter-4.0' && rating >= 4.0) ||
+                                  (selectedRating === 'filter-3.5' && rating >= 3.5) ||
+                                  (selectedRating === 'filter-3.0' && rating >= 3.0) ||
+                                  (!selectedRating); // Show all if no filter is selected
+
+                $(this).toggle(priceMatch && languageMatch && levelMatch);
+            });
+        }
+
+        $('input[name="price"], input[name="language"], input[name="level"], input[name="video"], input[name="rating"]').change(filterCourses);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        let coursesPerPage = 12;
+        let currentPage = localStorage.getItem('currentPage') ? parseInt(localStorage.getItem('currentPage')) : 1;
+        let totalCourses = $('.col-12.col-md-6.col-lg-4.col-xxl-3').length;
+        let totalPages = Math.ceil(totalCourses / coursesPerPage);
+        let maxVisiblePages;
+        let firstVisiblePage = 1;
+    
+        function updateMaxVisiblePages() {
+            let width = $(window).width();
+    
+            if (width <= 400) {
+                maxVisiblePages = 3;
+            } else if (width > 400 && width <= 500) {
+                maxVisiblePages = 5;
+            } else {
+                maxVisiblePages = 7;
+            }
+        }
+    
+        updateMaxVisiblePages(); // Set initial value
+    
+        function showPage(page) {
+            $('.col-12.col-md-6.col-lg-4.col-xxl-3').hide();
+            let start = (page - 1) * coursesPerPage;
+            let end = start + coursesPerPage;
+            $('.col-12.col-md-6.col-lg-4.col-xxl-3').slice(start, end).show();
+    
+            $('#prevBtn').prop('disabled', page === 1);
+            $('#nextBtn').prop('disabled', page === totalPages);
+    
+            localStorage.setItem('currentPage', page);
+            updatePagination();
+        }
+    
+        function updatePagination() {
+            let pagination = $('#pagination');
+            pagination.empty();
+            let endPage = firstVisiblePage + maxVisiblePages - 1;
+            if (endPage > totalPages) {
+                endPage = totalPages;
+                firstVisiblePage = Math.max(1, totalPages - maxVisiblePages + 1);
+            }
+    
+            for (let i = firstVisiblePage; i <= endPage; i++) {
+                pagination.append(`<button class='btn btn-light page-number' id='page-${i}'>${i}</button>`);
+            }
+    
+            $('.page-number').removeClass('active btn-primary text-white').addClass('btn-light');
+            $(`#page-${currentPage}`).removeClass('btn-light').addClass('active btn-primary text-white');
+    
+            $('.page-number').click(function () {
+                let page = parseInt($(this).text());
+                currentPage = page;
+                showPage(currentPage);
+            });
+        }
+    
+        updatePagination();
+        showPage(currentPage);
+    
+        $('#prevBtn').click(function () {
+            if (currentPage > 1) {
+                currentPage--;
+                if (currentPage < firstVisiblePage) {
+                    firstVisiblePage--;
+                }
+                showPage(currentPage);
+            }
+        });
+    
+        $('#nextBtn').click(function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                if (currentPage > firstVisiblePage + maxVisiblePages - 1) {
+                    firstVisiblePage++;
+                }
+                showPage(currentPage);
+            }
+        });
+    
+        $(window).resize(function () {
+            updateMaxVisiblePages(); // Update maxVisiblePages on window resize
+            updatePagination(); // Refresh pagination display
+        });
+    });
+</script> -->
+
+<!-- <script>
+    $(document).ready(function () {
+    let totalPages = 24; // Total pages
+    let currentPage = 1; // Default active page
+
+    function renderPagination() {
+        let paginationHTML = "";
+
+        // Enable/Disable Prev and Next buttons
+        $("#prevBtn").prop("disabled", currentPage === 1);
+        $("#nextBtn").prop("disabled", currentPage === totalPages);
+
+        // First Page Always Visible
+        paginationHTML += `<button class="page-btn ${currentPage === 1 ? "active" : ""}" data-page="1">1</button>`;
+
+        // Case 1: Pages 1, 2, 3 (Show directly)
+        if (currentPage <= 3) {
+            paginationHTML += `<button class="page-btn ${currentPage === 2 ? "active" : ""}" data-page="2">2</button>`;
+            paginationHTML += `<button class="page-btn ${currentPage === 3 ? "active" : ""}" data-page="3">3</button>`;
+            paginationHTML += `<span class="dots">...</span>`;
+        }
+        // Case 2: Middle Pages (Show ... before and after current page)
+        else if (currentPage >= 4 && currentPage <= totalPages - 3) {
+            paginationHTML += `<span class="dots">...</span>`;
+            paginationHTML += `<button class="page-btn active" data-page="${currentPage}">${currentPage}</button>`;
+            paginationHTML += `<span class="dots">...</span>`;
+        }
+        // Case 3: Last 3 Pages (Always Show 22, 23, 24)
+        else {
+            paginationHTML += `<span class="dots">...</span>`;
+            paginationHTML += `<button class="page-btn ${currentPage === 22 ? "active" : ""}" data-page="22">22</button>`;
+            paginationHTML += `<button class="page-btn ${currentPage === 23 ? "active" : ""}" data-page="23">23</button>`;
+            paginationHTML += `<button class="page-btn ${currentPage === 24 ? "active" : ""}" data-page="24">24</button>`;
+        }
+
+        // Last Page Always Visible
+        if (currentPage < totalPages - 2) {
+            paginationHTML += `<button class="page-btn ${currentPage === totalPages ? "active" : ""}" data-page="${totalPages}">${totalPages}</button>`;
+        }
+
+        $("#pagination").html(paginationHTML);
+    }
+
+    // Click events for pages
+    $(document).on("click", ".page-btn", function () {
+        currentPage = parseInt($(this).data("page"));
+        renderPagination();
+    });
+
+    // Previous Button Click
+    $("#prevBtn").click(function () {
+        if (currentPage > 1) {
+            currentPage--;
+            renderPagination();
+        }
+    });
+
+    // Next Button Click
+    $("#nextBtn").click(function () {
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderPagination();
+        }
+    });
+
+    // Initial Render
+    renderPagination();
+});
+
+</script> -->
+
+<%- include('./partials/chatbot.ejs')  %>
+<%- include('./partials/footer.ejs')  %>

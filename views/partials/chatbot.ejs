@@ -1,0 +1,433 @@
+<style>
+.chatbot-box .card-body::-webkit-scrollbar {
+  width: 4px;
+}
+.chatbot-box .card-body::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+@media (max-width : 520px) {
+    .chatbot-box {
+        width: 100% !important;
+        margin: 0% !important;
+        padding-inline: 0.75rem;
+        padding-block: 1.5rem;
+    }
+}
+
+</style>
+
+<style>
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  gap: 2px;
+}
+
+.typing-indicator span {
+  width: 4px;
+  height: 4px;
+  background-color: #888;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+</style>
+
+<style>
+/* Hide by default */
+#showChatbot,
+.chatbot-box {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Icon Animation: Down to Up */
+#showChatbot.visible {
+  opacity: 1;
+  pointer-events: auto;
+  animation: iconUpIn 0.3s forwards;
+}
+
+@keyframes iconUpIn {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Icon Exit: Upward */
+#showChatbot.hidden {
+  animation: iconUpOut 0.3s forwards;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes iconUpOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+/* Chatbot Animation: Bottom to Top */
+.chatbot-box.active {
+  opacity: 1;
+  pointer-events: auto;
+  animation: chatbotUp 0.3s forwards;
+}
+
+@keyframes chatbotUp {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Chatbot Exit: Top to Bottom */
+.chatbot-box.inactive {
+  animation: chatbotDown 0.3s forwards;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes chatbotDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+}
+
+  .dropdown .dropdown-item {
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .dropdown .dropdown-item:hover {
+    background-color: var(--bs-secondary-bg); /* Bootstrap variable */
+    color: var(--bs-body-color); /* keep text readable */
+  }
+
+</style>
+
+
+<!-- Chatbot Icon -->
+<div class="position-fixed bottom-0 end-0 m-4" style="z-index: 999;">
+    <div id="showChatbot" class="d-flex align-items-center justify-content-center rounded-circle bg-primary" style="width: calc(3.3rem + 0.4vw); height: calc(3.3rem + 0.4vw); cursor: pointer;">
+        <img src="/icons/chatbot-icon.svg" alt="Chatbot Icon" style="width: calc(1.9rem + 0.2vw);">
+    </div>
+</div>
+  
+  <!-- Chatbox -->
+<div class="chatbot-box position-fixed bottom-0 end-0 m-4" style="width: 25rem; z-index: 999;">
+  <div class="card" id="chatbot">
+    
+    <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #e5e7e9;">
+      <div class="d-flex align-items-center py-2">
+        <img class="me-2" src="/icons/chatbot-icon-blue.svg" alt="Chatbot Icon" style="width: calc(2rem + 0.2vw);">
+        <p class="fs-5 fw-medium mb-0">Chat</p>
+      </div>
+      <div class="position-relative">
+
+        <span class="me-2" id="toggleConversation" style="cursor:pointer;"><i class="bi bi-three-dots-vertical"></i></span>
+        <span id="closeChatbot" style="cursor:pointer;"><img src="/icons/cross.svg" style="width: 12px;"></span>
+
+        <div class="dropdown bg-white border rounded-2 shadow-sm p-2" id="dropdownConversation" style="width: 250px; position: absolute; right: 20px; top: 40px;">
+          <button class="dropdown-item d-flex align-items-center py-2 px-2 mb-1 rounded-2" id="voice-to-text">
+            <i class="bi bi-mic-fill me-3"></i>
+            <p class="mb-0">Voice to Text</p>
+          </button>
+          <button class="dropdown-item d-flex align-items-center py-2 px-2 rounded-2" id="voice-to-voice">
+            <i class="bi bi-megaphone-fill me-3"></i>
+            <p class="mb-0">Voice to Voice</p>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  
+    <div class="card-body p-0 overflow-auto" id="chatScrollContainer" style="height: 55vh;">
+
+      <div class="col-12 chatbot-conservation p-3">
+        <p id="chatDate" class="text-center text-body-secondary" style="font-size: 15px;">Today</p>
+
+        <!-- Initial Welcome Message -->
+        <div class="col-12 d-flex align-items-center">
+          <div class="p-2 px-3 mb-2 rounded-2 bg-body-secondary" style="width: fit-content;">
+            <p class="mb-0">Hi <span id="chatUsername">User</span>, welcome to eLMS!</p>
+          </div>
+          <p id="welcomeTime" class="ms-3 text-body-secondary mb-1" style="font-size: 14px;">10:00 AM</p>
+        </div>
+        <div class="p-2 px-3 mb-2 rounded-2 bg-body-secondary" style="width: fit-content;">
+          <p class="mb-0">I'm Ale Graphics, your virtual assistant, and I’ll do my best to assist you.</p>
+        </div>
+      </div>
+
+      <div class="col-12 h-100 chatbot-voice d-none" id="voiceRecorder">
+        <div class="col-12 h-100 d-flex flex-column align-items-center justify-content-center">
+          <div class="d-flex align-items-center justify-content-center rounded-circle my-2" style="width: 120px;height: 120px;">
+            <img class="w-100 h-100 object-fit" src="/icons/voice-icon.svg" alt="voice-icon" id="micIcon"></div>
+            <textarea class="col-12 text-center text-body-secondary form-control border-0 bg-transparent px-3" style="height: 80px; resize: none;font-size: calc(1rem + 0.2vw);" id="micStatus" readonly>Listening...</textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card-footer bg-transparent input-group border-top py-2">
+      <input type="text" class="form-control border-0" id="userMessageInput" placeholder="Enter your message...">
+      <button class="btn border-0" id="sendMessageBtn"><img src="/icons/chatbot-arrow.svg"></button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+  $(document).ready(function () {
+    // On click icon
+    $("#showChatbot").click(function () {
+      $("#showChatbot").removeClass("visible").addClass("hidden");
+      $(".chatbot-box").removeClass("inactive").addClass("active");
+    });
+
+    // On click close
+    $("#closeChatbot").click(function () {
+      $(".chatbot-box").removeClass("active").addClass("inactive");
+      setTimeout(function () {
+        $("#showChatbot").removeClass("hidden").addClass("visible");
+      });
+    });
+
+    // Initial icon visible
+    $("#showChatbot").addClass("visible");
+  });
+</script>
+
+
+<script>
+  $(document).ready(function () {
+    // Toggle dropdown menu
+    $("#toggleConversation").click(function (e) {
+      e.stopPropagation();
+      $("#dropdownConversation").toggle();
+    });
+
+    // Close dropdown when clicking outside
+    $(document).click(function (e) {
+      if (!$(e.target).closest("#dropdownConversation").length) {
+        $("#dropdownConversation").hide();
+      }
+    });
+  });
+</script>
+
+
+
+
+
+
+<script>
+  $(document).ready(function () {
+    const $chatContainer = $(".chatbot-conservation");
+    const $input = $("#userMessageInput");
+    const username = "Ali"; // You can dynamically get this from session/user
+    const today = new Date();
+    const currentDate = today.toDateString();
+    const currentTime = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    const MAX_RESTORE_TIME = 2 * 60 * 60 * 1000; // 2 hours
+    const OFFLINE_NOTICE_TIME = 30 * 60 * 1000; // 30 mins
+
+    // Set username and chat date
+    $("#chatUsername").text(username);
+    $("#chatDate").text("Today");
+    $("#welcomeTime").text(currentTime);
+    localStorage.setItem("lastChatDate", currentDate);
+
+    function scrollToBottom() {
+      const $container = $("#chatScrollContainer");
+      $container.scrollTop($container[0].scrollHeight);
+    }
+
+    function getTime() {
+      return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function appendUserMessage(text) {
+      const html = `
+        <div class="d-flex justify-content-end align-items-center">
+          <div class="p-2 px-3 mb-2 rounded-2 bg-primary ms-auto" style="width: fit-content;">
+            <p class="text-white fw-normal mb-0">${text}</p>
+          </div>
+        </div>
+      `;
+      $chatContainer.append(html);
+      scrollToBottom();
+    }
+
+    function appendBotMessage(text) {
+      const html = `
+        <div class="d-flex align-items-center">
+          <div class="p-2 px-3 mb-2 rounded-2 bg-body-secondary" style="width: fit-content;">
+            <p class="mb-0">${text}</p>
+          </div>
+        </div>
+      `;
+      $chatContainer.append(html);
+      scrollToBottom();
+    }
+
+    function showTypingIndicator() {
+      const loadingHTML = `
+        <div class="d-flex align-items-center mb-2 bot-typing">
+          <img class="me-1" src="/icons/chatbot-icon-blue.svg" alt="Chatbot Icon" style="width: 1.5rem;">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      `;
+      $chatContainer.append(loadingHTML);
+      scrollToBottom();
+    }
+
+    function removeTypingIndicator() {
+      $(".bot-typing").remove();
+    }
+
+    function saveChatHistory() {
+      const chatHTML = $chatContainer.html();
+      localStorage.setItem("chatHistory", chatHTML);
+      localStorage.setItem("lastActiveTime", Date.now());
+    }
+
+    function restoreChatHistory() {
+      const lastTime = localStorage.getItem("lastActiveTime");
+      const now = Date.now();
+
+      if (lastTime) {
+        const diff = now - parseInt(lastTime);
+
+        if (diff < MAX_RESTORE_TIME) {
+          const savedHTML = localStorage.getItem("chatHistory");
+          if (savedHTML) $chatContainer.html(savedHTML);
+
+          // If offline for more than 30 mins, show notice
+          if (diff >= OFFLINE_NOTICE_TIME) {
+            const mins = Math.floor(diff / 60000);
+            const hours = Math.floor(mins / 60);
+            const timeText = hours >= 1
+              ? `${hours} hour${hours > 1 ? "s" : ""}`
+              : `${mins} minute${mins > 1 ? "s" : ""}`;
+
+            const notice = `
+              <div class="d-flex justify-content-center text-body-secondary mb-2 py-1" style="font-size: 14px;">
+                <em class="text-center">You were offline for ${timeText}, welcome back!</em>
+              </div>`;
+            $chatContainer.append(notice);
+          }
+        } else {
+          // Clear old chat if offline more than 2 hours
+          localStorage.removeItem("chatHistory");
+        }
+      }
+
+      scrollToBottom();
+    }
+
+    // Restore chat on load
+    restoreChatHistory();
+
+    $("#sendMessageBtn").on("click", async function () {
+    const message = $input.val().trim();
+    if (!message) return;
+
+    appendUserMessage(message);
+    $input.val("");
+    showTypingIndicator();
+
+    try {
+        // First try website-specific queries
+        const websiteRes = await fetch("/api/chatbot/query", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: message })
+        });
+        
+        if (websiteRes.ok) {
+            const data = await websiteRes.json();
+            removeTypingIndicator();
+            appendBotMessage(data.reply);
+            saveChatHistory();
+            return;
+        }
+        
+        // Fallback to Python chatbot for general questions
+        const pythonRes = await fetch("http://localhost:5000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+        });
+        
+        if (pythonRes.ok) {
+            const data = await pythonRes.json();
+            removeTypingIndicator();
+            appendBotMessage(data.reply);
+            saveChatHistory();
+            return;
+        }
+        
+        throw new Error("No chatbot responded");
+        
+    } catch (err) {
+        removeTypingIndicator();
+        appendBotMessage("Sorry, I couldn't get a response. Please try again.");
+        saveChatHistory();
+    }
+    });
+
+    $input.on("keypress", function (e) {
+      if (e.which === 13) $("#sendMessageBtn").click();
+    });
+
+    $(window).on("beforeunload", saveChatHistory);
+  });
+</script>

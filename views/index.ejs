@@ -1,0 +1,942 @@
+<%- include('./partials/header.ejs')  %>
+
+<style>
+#successMessage,
+#errorMessage {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#successMessage .success,
+#errorMessage .error{
+    width: fit-content;
+    min-height: 60px;
+    background-color: #ddf4ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#errorMessage .error {
+    background-color: #FCDAD8;
+}
+
+.swiper-pagination {
+    text-align: end;
+}
+
+.course-section .swiper-button-disabled {
+    background-color: #69a4fc !important;
+}
+
+</style>
+
+<% if (success.length > 0) { %> 
+    <div class="container-fluid position-absolute" id="successMessage">
+        <div class="success px-3 px-md-4 rounded-3 d-flex align-items-center">
+            <i class="bi bi-cloud-check mt-lg-1 fs-4 text-success me-2 me-md-3"></i>
+            <span class="text-success text-center"> <%- success %> </span>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+<% } %>
+
+<% if (error.length > 0) { %> 
+    <div class="container-fluid position-absolute" id="errorMessage">
+        <div class="error px-3 rounded-3 align-items-center">
+            <i class="bi bi-exclamation-triangle text-danger fs-5 me-3" style="font-weight: 900;"></i>
+            <span class="text-danger text-center"> <%- error %> </span>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener('DOMContentLoaded', function () {
+            const errorMessage = document.getElementById('errorMessage');
+            if (errorMessage) {
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+<% } %>
+
+<!---------- Home Page ---------->
+
+<%- include('./partials/navbar.ejs')  %>
+
+<div class="main-section position-relative">
+    <div class="container-fluid">
+
+        <div class="main-bg-img w-100 h-100 position-relative">
+            <img class="header-bg rounded-3 position-absolute top-0 z-n1" src="/images/header-bg.svg">
+        </div>
+
+        <div class="main-info rounded-3 px-2 px-lg-5">
+
+            <div class="col-12 col-lg-7 col-xl-6 mb-4 main-content">
+
+                <div class="d-flex align-items-center rounded-5 mb-3" style="width: fit-content;background-color: #F1F9FF;padding: 8px 25px;">
+                    <img src="/icons/rocket.svg">
+                    <p class="mb-0 fw-semibold ms-3" style="font-size: calc(0.8rem + 0.2vw);letter-spacing: 1px;margin-top: 2px;">ENHANCE YOUR CAREER</p>
+                </div>
+
+                <h1 class="text-center text-lg-start fw-semibold lh-sm mb-2" style="font-size: calc(2rem + 2.2vw);">Access the world’s best learning course with Platform</h1>
+                <img class="col-12 col-sm-7 col-md-6 col-lg-8 mb-2" src="/icons/header-content-line.svg">
+
+                <p class="text-center text-lg-start text-body-secondary">An online platform offering courses, degrees, and certifications to empower learners worldwide. Integrated with an AI chatbot for personalized support and an intuitive system for managing progress, we provide a seamless and engaging learning experience for all.</p>
+
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-google-play rounded-2 bg-dark-subtle me-3 d-flex align-items-center justify-content-center" style="width: calc(50px + 1vw);height: 50px; font-size: calc(1.1rem + 0.2vw);"></i>
+                        <i class="bi bi-apple rounded-2 bg-dark-subtle d-flex align-items-center justify-content-center" style="width: calc(50px + 1vw);height: 50px; font-size: calc(1.2rem + 0.2vw);"></i>
+                    </div>
+                    <button type="button" class="btn btn-primary px-2 px-md-4 px-lg-4 ms-3 ms-lg-5" style="height: 50px;">Download Now</button>
+                </div>
+
+            </div>
+
+            <div class="col-12 col-lg-5 col-xl-6 main-image">
+                <img class="w-100 main-mobile-half" style="margin-top: 22px;" src="/images/header-mobile.svg">
+                <img class="w-100 main-mobile-full" src="/images/header-mobile-full.svg">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="top-companies col-12 col-lg-6 px-3 px-lg-0 ms-lg-3 px-xl-5 mb-3 mb-lg-0">
+
+    <div class="w-100 d-flex align-items-center justify-content-between position-relative" style="top: 10px;">
+        <p class="col-8" style="font-size: calc(0.8rem + 0.4vw);">More than 100+companies trusted us</p>
+        <div class="swiper-pagination position-absolute top-0 mt-1" style="font-size: calc(0.8rem + 0.2vw);"></div>
+    </div>
+
+    <div class="swiper mySwiper w-100 top-companies-swiper">
+        <div class="swiper-wrapper d-flex align-items-center">
+          <div class="swiper-slide"><img src="/images/mirosoft.png" style="width: 180px;"></div>
+          <div class="swiper-slide d-flex justify-content-center"><img src="/images/logo-udemy.svg" style="width: 110px;"></div>
+          <div class="swiper-slide d-flex justify-content-center"><img src="/images/simplilearn.svgz" style="width: 140px;margin-top: 5px;"></div>
+          <div class="swiper-slide d-flex justify-content-center"><img src="/images/coursera.svg" style="width: 140px;"></div>
+          <div class="swiper-slide d-flex justify-content-center"><img src="/images/codecademy-ar21.svg" style="width: 140px;"></div>
+          <div class="swiper-slide d-flex justify-content-center"><img src="/images/w3school.png" style="width: 50px;"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="choose-section mb-lg-3">
+    <div class="container-fluid">
+
+        <div class="d-flex flex-column align-items-center mb-3 mb-lg-0" style="position: relative;top: calc(10px + -2.5vw);">
+
+            <div class="col-12 col-md-8 col-lg-7 d-flex justify-content-center position-relative">
+                <div class="d-flex align-items-center rounded-5 mb-3 mt-4 mt-lg-5" style="width: fit-content;background-color: #2863F5;padding: 8px 25px;">
+                    <p class="mb-0 fw-medium text-white" style="font-size: calc(0.8rem + 0.2vw);letter-spacing: 1px;margin-top: 2px;">WHY CHOOSE ME</p>
+                </div>
+                <img class="position-absolute top-0 end-0" style="width: calc(2.2rem + 2vw);" src="/images/design-2.svg">
+            </div>
+
+            <div class="col-12 col-lg-8 d-flex justify-content-center position-relative">
+                <img class="position-absolute start-0" style="width: calc(2.2rem + 2vw);bottom: calc(140px - 7.5vw);" src="/images/design-1.svg">
+                <h1 class="col-12 col-lg-9 fw-semibold text-center" style="font-size: calc(1.5rem + 1.5vw);">Dive into online courses on diverse subjects</h1>
+            </div>
+
+        </div>
+
+        <div class="row px-lg-5">
+            <div class="col-sm-6 mb-4">
+              <div class="card bg-body-secondary border-0">
+                <div class="card-body d-flex align-items-center card-md-wrap">
+                  <img class="me-0 me-lg-4 mx-lg-2 mb-3 mb-lg-0" style="width: calc(3.5rem + 0.2vw);" src="/icons/progress.svg" alt="">
+                  <div>
+                    <h5 class="card-title">Progress Tracking and Certificate</h5>
+                    <p class="card-text text-secondary col-xl-11">Provide feature to track users progress.such as completion
+                        percentage,module-wise performance achievements.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6 mb-4">
+                <div class="card bg-body-secondary border-0">
+                  <div class="card-body d-flex align-items-center card-md-wrap">
+                    <img class="me-0 me-lg-4 mx-lg-2 mb-3 mb-lg-0" style="width: calc(3.5rem + 0.2vw);" src="/icons/accessibility.svg">
+                    <div>
+                      <h5 class="card-title">Accessibility and Convenience</h5>
+                      <p class="card-text text-secondary col-xl-11">Provide the flexibility to learn anytime,anywhere,making 
+                        education accessible to a wider audience.</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 mb-4">
+                <div class="card bg-body-secondary border-0">
+                  <div class="card-body d-flex align-items-center card-md-wrap">
+                    <img class="me-0 me-lg-4 mx-lg-2 mb-3 mb-lg-0" style="width: calc(3.5rem + 0.2vw);" src="/icons/diverse.svg">
+                    <div>
+                      <h5 class="card-title">Diverse Course Selection</h5>
+                      <p class="card-text text-secondary col-xl-11">Offer a vast range of subject and topics to choose from,
+                        allowing users to explore their interests,acquire new skills.</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 mb-4">
+                <div class="card bg-body-secondary border-0">
+                  <div class="card-body d-flex align-items-center card-md-wrap">
+                    <img class="me-0 me-lg-4 mx-lg-2 mb-3 mb-lg-0" style="width: calc(3.5rem + 0.2vw);" src="/icons/interactive.svg">
+                    <div>
+                      <h5 class="card-title">Interactive Learning Experience</h5>
+                      <p class="card-text text-secondary col-xl-11">Interactive elements like quizzes,exercises and discussion
+                        forms and enhancing the learning experience.</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="course-section px-lg-5 py-lg-5">
+    <div class="container-fluid">
+
+        <div class="col-12 col-lg-7 text-center text-lg-start">
+            <h1 class="fs-2 mb-2">Provide a several categories of courses</h1>
+            <p class="text-dark mb-3">A categories is a group of item that share common features or properties. Categories are
+                useful from organizing information and distinguishing one group of another.</p>
+        </div>
+        
+        <div class="d-flex align-items-center justify-content-between mb-3 mb-lg-4">
+            <a href="">
+              <button type="button" class="btn btn-primary px-2 px-md-4 px-lg-4" style="height: 50px;">Explore UI/UX Design</button>
+            </a>
+            <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle me-3 swiper-prev" style="width: 40px;height: 40px;cursor: pointer;"><i class="bi bi-arrow-left-short fs-4 text-white"></i></div>
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle swiper-next" style="width: 40px;height: 40px;cursor: pointer;"><i class="bi bi-arrow-right-short fs-4 text-white"></i></div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="swiper mySwiper course-card-swiper">
+                <div class="swiper-wrapper">
+
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-1.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Data analysis </h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>150+ course</p>
+                            <p>1000+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-2.jpeg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">UI / UX Design</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>200+ course</p>
+                            <p>500+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-3.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Web Development</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>320+ course</p>
+                            <p>1500+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-4.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Artificial Intelligence</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>300+ course</p>
+                            <p>2500+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-5.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Business Course</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>150+ course</p>
+                            <p>510+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-6.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Digital Marketing</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>90+ course</p>
+                            <p>194+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-7.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Programming Language</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>96+ course</p>
+                            <p>1025+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-8.jpeg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">TypeScript</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>62+ course</p>
+                            <p>130+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-9.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Adobe</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>14+ course</p>
+                            <p>234+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-10.jpg" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Android Development</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>85+ course</p>
+                            <p>760+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-11.png" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">MERN Stack</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>250+ course</p>
+                            <p>3259+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="swiper-slide">
+                    <a href="/courses">
+                      <div class="card w-100 bg-transparet border-0">
+                        <div class="w-100 rounded-3 overflow-hidden mb-3" style="height: 25vh;">
+                            <img src="/images/img-12.webp" class="card-img-top w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="card-body p-0">
+                          <h5 class="card-title mb-0">Cyber Hacking</h5>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>90+ course</p>
+                            <p>310+ Student</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div class="program-section px-lg-5 py-3 py-md-0 mb-lg-5">
+    <div class="container-fluid">
+
+        <div class="d-flex flex-column align-items-center mb-3 mb-lg-5">
+
+            <div class="col-12 col-lg-8 d-flex justify-content-center position-relative">
+                <div class="d-flex align-items-center rounded-5 mb-3 mt-4 mt-lg-5" style="width: fit-content;background-color: #2863F5;padding: 8px 25px;">
+                    <p class="mb-0 fw-medium text-white" style="font-size: calc(0.8rem + 0.2vw);letter-spacing: 1px;margin-top: 2px;">OUR BEST PROGRAM</p>
+                </div>
+                <img class="position-absolute bottom-0 end-0 mb-5 mb-md-0" style="width: calc(2.2rem + 2vw);" src="/images/design-3.svg">
+            </div>
+
+            <div class="col-12 col-lg-8 d-flex justify-content-center mb-3">
+                <h1 class="col-12 col-lg-10 fw-semibold text-center" style="font-size: calc(1.5rem + 1.5vw);">Discover a most popular Degree Program</h1>
+            </div>
+
+            <div class="col-12 col-md-7 col-lg-4 d-flex justify-content-center program-search">
+                <form class="custom-search-bar me-auto py-1" role="search">
+                    <span class="search-icon"><i class="fas fa-search mx-2"></i></span>
+                    <input type="text" class="form-control p-0" placeholder="Search..." aria-label="Search">
+                </form>
+                <button type="button" class="btn btn-primary px-4 ms-3">Search</button>
+            </div>
+
+        </div>
+
+        <div class="row g-3">
+
+            <div class="col-12 col-md-6 col-lg-4 position-relative program">
+
+                <div class="p-3 p-xl-4 bg-body-secondary program-card" style="border-radius: 15px;">
+
+                    <div class="program-content">
+                        <p class="mb-2 fw-medium text-primary" style="font-size: calc(0.9rem + 0.2vw);">GRAPHIC DESIGN</p>
+                        <h4 class="mb-3 card-text" style="font-size: calc(1rem + 0.7vw);">The Complete Graphic Design Theory of beginners Course</h4>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="user rounded-circle" style="width: 40px;height: 40px;">
+                                  <img class="w-100 h-100 object-fit-cover" src="/images/program-img-1.png">
+                                </div>
+                                 <p class="mb-0 ms-2 fw-medium">Simon dowel</p>
+                            </div>
+                            <p class="mb-0 text-secondary">18 months</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between rating-content">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0 fs-5 fw-medium" style="color: red;">$120.00</p>
+                                 <p class="mb-0 ms-2 text-secondary">%30.00</p>
+                            </div>
+                            <div class="d-flex align-items-center rating">
+                                <img class="mx-2" src="/icons/star.svg" style="width: 13px;margin-bottom: 3px;">
+                                <p class="mb-0">5.0(124,31)</p>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="position-absolute me-2 bottom-0 end-0 enroll">
+                    <a class="w-100 h-100" href="#">
+                        <button type="button" class="btn bg-body-secondary w-100 h-100" style="font-size: calc(0.8rem + 0.2vw); border-radius: 10px;">Enroll Now</button>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 position-relative program">
+
+                <div class="p-3 p-xl-4 bg-body-secondary program-card" style="border-radius: 15px;">
+
+                    <div class="program-content">
+                        <p class="mb-2 fw-medium text-primary" style="font-size: calc(0.9rem + 0.2vw);">ANIMATION</p>
+                        <h4 class="card-text mb-3" style="font-size: calc(1rem + 0.7vw);">After Effect Masterclass: how to rigging character easily</h4>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="user rounded-circle" style="width: 40px;height: 40px;">
+                                  <img class="w-100 h-100 object-fit-cover" src="/images/program-img-2.png">
+                                </div>
+                                 <p class="mb-0 ms-2 fw-medium">John Corner</p>
+                            </div>
+                            <p class="mb-0 text-secondary">12 months</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between rating-content">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0 fs-5 fw-medium" style="color: red;">$140.00</p>
+                                 <p class="mb-0 ms-2 text-secondary">%60.00</p>
+                            </div>
+                            <div class="d-flex align-items-center rating">
+                                <img class="mx-2" src="/icons/star.svg" style="width: 13px;margin-bottom: 3px;">
+                                <p class="mb-0">5.0(124,31)</p>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="position-absolute me-2 bottom-0 end-0 enroll">
+                    <a class="w-100 h-100" href="#">
+                        <button type="button" class="btn bg-body-secondary w-100 h-100" style="font-size: calc(0.8rem + 0.2vw); border-radius: 10px;">Enroll Now</button>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 position-relative program">
+
+                <div class="p-3 p-xl-4 bg-body-secondary program-card" style="border-radius: 15px;">
+
+                    <div class="program-content">
+                        <p class="mb-2 fw-medium text-primary" style="font-size: calc(0.9rem + 0.2vw);">IT SOFTWARE</p>
+                        <h4 class="card-text mb-3" style="font-size: calc(1rem + 0.7vw);">CCNA 2025 200-125 video Boot Camp with Chris Bryant</h4>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="user rounded-circle" style="width: 40px;height: 40px;">
+                                  <img class="w-100 h-100 object-fit-cover" src="/images/program-img-3.png">
+                                </div>
+                                 <p class="mb-0 ms-2 fw-medium">Chris Bryant</p>
+                            </div>
+                            <p class="mb-0 text-secondary">24 months</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between rating-content">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0 fs-5 fw-medium" style="color: red;">$320.00</p>
+                                 <p class="mb-0 ms-2 text-secondary">%80.00</p>
+                            </div>
+                            <div class="d-flex align-items-center rating">
+                                <img class="mx-2" src="/icons/star.svg" style="width: 13px;margin-bottom: 3px;">
+                                <p class="mb-0">5.0(124,31)</p>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="position-absolute me-2 bottom-0 end-0 enroll">
+                    <a class="w-100 h-100" href="#">
+                        <button type="button" class="btn bg-body-secondary w-100 h-100" style="font-size: calc(0.8rem + 0.2vw); border-radius: 10px;">Enroll Now</button>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 position-relative program">
+
+                <div class="p-3 p-xl-4 bg-body-secondary program-card" style="border-radius: 15px;">
+
+                    <div class="program-content">
+                        <p class="mb-2 fw-medium text-primary" style="font-size: calc(0.9rem + 0.2vw);">UI / UX DESIGN</p>
+                        <h4 class="card-text mb-3" style="font-size: calc(1rem + 0.7vw);">User Experience Design Fundamentals</h4>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="user rounded-circle" style="width: 40px;height: 40px;">
+                                  <img class="w-100 h-100 object-fit-cover" src="/images/program-img-1.png">
+                                </div>
+                                 <p class="mb-0 ms-2 fw-medium">Simon dowel</p>
+                            </div>
+                            <p class="mb-0 text-secondary">18 months</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between rating-content">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0 fs-5 fw-medium" style="color: red;">$120.00</p>
+                                 <p class="mb-0 ms-2 text-secondary">%30.00</p>
+                            </div>
+                            <div class="d-flex align-items-center rating">
+                                <img class="mx-2" src="/icons/star.svg" style="width: 13px;margin-bottom: 3px;">
+                                <p class="mb-0">5.0(124,31)</p>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="position-absolute me-2 bottom-0 end-0 enroll">
+                    <a class="w-100 h-100" href="#">
+                        <button type="button" class="btn bg-body-secondary w-100 h-100" style="font-size: calc(0.8rem + 0.2vw); border-radius: 10px;">Enroll Now</button>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 position-relative program">
+
+                <div class="p-3 p-xl-4 bg-body-secondary program-card" style="border-radius: 15px;">
+
+                    <div class="program-content">
+                        <p class="mb-2 fw-medium text-primary" style="font-size: calc(0.9rem + 0.2vw);">DEVELOPMENT</p>
+                        <h4 class="card-text mb-3" style="font-size: calc(1rem + 0.6vw);">Web Development Masterclass - Online Certification</h4>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="user rounded-circle" style="width: 40px;height: 40px;">
+                                  <img class="w-100 h-100 object-fit-cover" src="/images/program-img-5.png">
+                                </div>
+                                 <p class="mb-0 ms-2 fw-medium">Eli Sunardo</p>
+                            </div>
+                            <p class="mb-0 text-secondary">18 months</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between rating-content">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0 fs-5 fw-medium" style="color: red;">$220.00</p>
+                                 <p class="mb-0 ms-2 text-secondary">%100.00</p>
+                            </div>
+                            <div class="d-flex align-items-center rating">
+                                <img class="mx-2" src="/icons/star.svg" style="width: 13px;margin-bottom: 3px;">
+                                <p class="mb-0">5.0(124,31)</p>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="position-absolute me-2 bottom-0 end-0 enroll">
+                    <a class="w-100 h-100" href="#">
+                        <button type="button" class="btn bg-body-secondary w-100 h-100" style="font-size: calc(0.8rem + 0.2vw); border-radius: 10px;">Enroll Now</button>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 position-relative program">
+
+                <div class="p-3 p-xl-4 bg-body-secondary program-card" style="border-radius: 15px;">
+
+                    <div class="program-content">
+                        <p class="mb-2 fw-medium text-primary" style="font-size: calc(0.9rem + 0.2vw);">DATA SCIENCE</p>
+                        <h4 class="card-text mb-3" style="font-size: calc(1rem + 0.7vw);">Python or Data Science and Machine Learning Bootcamp</h4>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="user rounded-circle" style="width: 40px;height: 40px;">
+                                  <img class="w-100 h-100 object-fit-cover" src="/images/program-img-6.png">
+                                </div>
+                                 <p class="mb-0 ms-2 fw-medium">Narnie Maxswell</p>
+                            </div>
+                            <p class="mb-0 text-secondary">24 months</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between rating-content">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0 fs-5 fw-medium" style="color: red;">$350.00</p>
+                                 <p class="mb-0 ms-2 text-secondary">%100.00</p>
+                            </div>
+                            <div class="d-flex align-items-center rating">
+                                <img class="mx-2" src="/icons/star.svg" style="width: 13px;margin-bottom: 3px;">
+                                <p class="mb-0">5.0(124,31)</p>
+                            </div>
+    
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="position-absolute me-2 bottom-0 end-0 enroll">
+                    <a class="w-100 h-100" href="#">
+                        <button type="button" class="btn bg-body-secondary w-100 h-100" style="font-size: calc(0.8rem + 0.2vw); border-radius: 10px;">Enroll Now</button>
+                    </a>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="col-12 relative-skills py-3 py-lg-5">
+    <div class="container-fluid">
+        <div class="row py-3 py-md-5 py-lg-0">
+            <div class="col-12 ps-lg-5">
+                <h1 class="fs-2 mb-3">Most Popular Courses</h1>
+            </div>
+            <div class="col-12 d-flex align-items-center overflow-hidden ps-lg-5 mb-2">
+                <h3 style="width: calc(250px + 1vw); font-size: calc(1rem + 0.6vw);">Relative Skills</h3>
+                
+                <div class="marquee-wrapper flex-grow-1 marquee-right-left">
+                    <div class="marquee-content">
+                      <div class="marquee-inner">
+                        <!-- Single set of buttons -->
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Deep Learning</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Artificial Intelligence</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">User Interface & User Experience</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">IT Certificate</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Scikit-Learn</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Design & Creatively</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Mindfulness & Wellness</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Data Analysis</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Data Enginerring</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Affiliate Marketing</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Investing & Trading</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Videography</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Big Data</button>
+              
+                        <!-- Duplicated set of buttons for seamless loop -->
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Deep Learning</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Artificial Intelligence</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">User Interface & User Experience</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">IT Certificate</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Scikit-Learn</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Design & Creatively</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Mindfulness & Wellness</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Data Analysis</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Data Enginerring</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Affiliate Marketing</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Investing & Trading</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Videography</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Big Data</button>
+                      </div>
+                    </div>
+                </div>
+        
+            </div>
+
+            <div class="col-12">
+                <div class="marquee-wrapper flex-grow-1 marquee-left-right">
+                    <div class="marquee-content">
+                      <div class="marquee-inner">
+                        <!-- Single set of buttons -->
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Web3 & Blockchain Development</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Machine Learning</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">TensorFlow</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Networking</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Business Analytics</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Web Development</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">OOPs</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">TypeScript</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Penetration Testing</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Docker</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Figma</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Data Structure & Algorithm</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">DevOps</button>
+              
+                        <!-- Duplicated set of buttons for seamless loop -->
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Web3 & Blockchain Development</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Machine Learning</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">TensorFlow</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Networking</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Business Analytics</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Web Development</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">OOPs</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">TypeScript</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Penetration Testing</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Docker</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Figma</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">Data Structure & Algorithm</button>
+                        <button class="btn btn-outline-primary border-2 fw-medium px-4 mx-1" style="font-size: calc(1rem + 0.2vw); padding-block: 12px;">DevOps</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+
+<div class="testimonial-section px-lg-5 py-3 py-md-0" style="margin-bottom: calc(50px + 3vw);">
+    <div class="container-fluid">
+
+        <div class="d-flex flex-column align-items-center mb-3 mb-lg-5">
+
+            <div class="col-12 col-lg-8 d-flex justify-content-center position-relative">
+                <div class="d-flex align-items-center rounded-5 mb-3 mt-4 mt-lg-5" style="width: fit-content;background-color: #2863F5;padding: 8px 25px;">
+                    <p class="mb-0 fw-medium text-white" style="font-size: calc(0.8rem + 0.2vw);letter-spacing: 1px;margin-top: 2px;">TESTIMONIALS</p>
+                </div>
+                <img class="position-absolute bottom-0 start-0 mb-5 mb-md-0" style="width: calc(3.5rem + 4vw);" src="/images/design-4.svg">
+            </div>
+
+            <div class="col-12 col-lg-8 d-flex justify-content-center mb-3">
+                <h1 class="col-12 col-lg-10 fw-semibold text-center" style="font-size: calc(1.5rem + 1.5vw);">See what our previous client think about us</h1>
+            </div>
+
+        </div>
+
+        <div class="col-12">
+            <div class="client-section">
+              <!-- Owl Carousel -->
+              <div class="owl-carousel owl-theme client-owl">
+                
+                <div class="item swiper-slide user-review-container" id="section-1" data-section="section-1">
+                  <div class="row w-100 h-100 d-flex justify-content-center">
+                    <!-- Left thumbnails -->
+                    <div class="col-12 col-md-3 col-lg-3 user-left user-thumbnails">
+                      <div class="top mt-1">
+                        <img src="/images/testinomial-1.jpg" data-review-id="1" data-section="1">
+                      </div>
+                      <div class="middle ms-1">
+                        <img src="/images/testinomial-3.jpg" data-review-id="3" data-section="3">
+                      </div>
+                      <div class="bottom mb-1">
+                        <img src="/images/testinomial-5.jpg" data-review-id="5" data-section="5">
+                      </div>
+                    </div>
+          
+                    <!-- Active user -->
+                    <div class="col-12 col-md-4 col-lg-4 active-user">
+                      <div class="py-2 user-card d-flex">
+                        <div class="item" id="user-data-container">
+                          <!-- Dynamic user content goes here -->
+                        </div>
+                      </div>                
+                    </div>
+          
+                    <!-- Right thumbnails -->
+                    <div class="col-12 col-md-3 col-lg-3 user-right user-thumbnails">
+                      <div class="top mt-1">
+                        <img class="w-100 h-100" src="/images/testinomial-2.jpg" data-review-id="2">
+                      </div>
+                      <div class="middle">
+                        <img class="w-100 h-100" src="/images/testinomial-4.jpg" data-review-id="4">
+                      </div>
+                      <div class="bottom mb-1">
+                        <img class="w-100 h-100" src="/images/testinomial-6.jpg" data-review-id="6">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          
+                <!-- Second Slide -->
+                <div class="item swiper-slide user-review-container" id="section-2" data-section="section-2">
+                  <div class="row w-100 h-100 d-flex justify-content-center">
+                    <div class="col-12 col-md-3 col-lg-3 user-left user-thumbnails">
+                      <div class="top mt-1">
+                        <img src="/images/testinomial-7.jpg" data-review-id="7">
+                      </div>
+                      <div class="middle">
+                        <img src="/images/testinomial-9.jpg" data-review-id="9">
+                      </div>
+                      <div class="bottom mb-1">
+                        <img src="/images/testinomial-11.jpg" data-review-id="11">
+                      </div>
+                    </div>
+          
+                    <div class="col-12 col-md-4 col-lg-4 active-user">
+                      <div class="py-2 user-card d-flex">
+                        <div class="item" id="user-data-container">
+                          <!-- Dynamic user content -->
+                        </div>
+                      </div>                
+                    </div>
+          
+                    <div class="col-12 col-md-3 col-lg-3 user-right user-thumbnails">
+                      <div class="top mt-1">
+                        <img class="w-100 h-100" src="/images/testinomial-8.jpg" data-review-id="8">
+                      </div>
+                      <div class="middle">
+                        <img class="w-100 h-100" src="/images/testinomial-10.jpg" data-review-id="10">
+                      </div>
+                      <div class="bottom mb-1">
+                        <img class="w-100 h-100" src="/images/testinomial-12.webp" data-review-id="12">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Third Slide -->
+                <div class="item swiper-slide user-review-container" id="section-3" data-section="section-3">
+                  <div class="row w-100 h-100 d-flex justify-content-center">
+                    <div class="col-12 col-md-3 col-lg-3 user-left user-thumbnails">
+                      <div class="top mt-1">
+                        <img src="/images/testinomial-13.jpg" data-review-id="13">
+                      </div>
+                      <div class="middle">
+                        <img src="/images/testinomial-15.jpg" data-review-id="15">
+                      </div>
+                      <div class="bottom mb-1">
+                        <img src="/images/testinomial-17.jpg" data-review-id="17">
+                      </div>
+                    </div>
+          
+                    <div class="col-12 col-md-4 col-lg-4 active-user">
+                      <div class="py-2 user-card d-flex">
+                        <div class="item" id="user-data-container">
+                          <!-- Dynamic user content -->
+                        </div>
+                      </div>                
+                    </div>
+          
+                    <div class="col-12 col-md-3 col-lg-3 user-right user-thumbnails">
+                      <div class="top mt-1">
+                        <img class="w-100 h-100" src="/images/testinomial-14.jpg" data-review-id="14">
+                      </div>
+                      <div class="middle">
+                        <img class="w-100 h-100" src="/images/testinomial-16.jpg" data-review-id="16">
+                      </div>
+                      <div class="bottom mb-1">
+                        <img class="w-100 h-100" src="/images/testinomial-18.jpg" data-review-id="18">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          
+              </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<%- include('./partials/chatbot.ejs')  %>
+<%- include('./partials/footer.ejs')  %>

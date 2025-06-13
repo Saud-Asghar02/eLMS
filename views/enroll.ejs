@@ -1,0 +1,265 @@
+<%- include('./partials/header.ejs')  %>
+<%- include('./partials/navbar.ejs')  %>
+
+<div class="container enroll-section" style="margin-bottom: calc(50px + 3vw);">
+    <div class="catagory mb-3 mb-lg-4">
+        <div class="d-flex align-items-center">
+          <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Home</h3>
+          <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+          <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Course</h3>
+          <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+          <h3 class="mb-0 fw-normal select-category-name" style="font-size: calc(0.9rem + 0.1vw);">Enroll Course</h3>
+        </div>
+    </div>
+
+    <div class="col-12 mb-3 d-flex flex-wrap align-items-center d-grid gap-0 column-gap-5">
+        <div class="d-flex align-items-center">
+            <img class="me-3" src="/icons/video-lessons.svg" style="width: 18px;">
+            <p class="mb-0 text-secondary"><%= course.totalLectures %> Lectures</p>
+        </div>
+        <div class="d-flex align-items-center">
+            <img class="me-3" src="/icons/video-duration.svg" style="width: 20px;">
+            <p class="mb-0 text-secondary" id="course-lecture-video-duration"></p>
+        </div>
+        <div class="d-flex align-items-center">
+            <img class="me-3" src="/icons/rating-star.svg" style="width: 17px;">
+            <p class="mb-0 text-secondary" id="course-lecture-views"><%= averageRating %> (<span><%= totalReviews %> reviews</span>)</p>
+        </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-12 col-lg-7 d-flex flex-column align-items-center mb-3 mb-lg-5">
+        <div class="w-100 rounded-3 overflow-hidden position-relative" style="height: calc(17vh + 23vw);">
+          <video id="course-video" controls style="width: 100%; height: 100%; object-fit: cover;">
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>            
+      </div>
+      
+
+        <div class="col-12 col-lg-5 mb-3 accordion-course">
+
+          <div class="col-12 accordion-course-content">
+            <div class="accordion border border-light-subtle rounded-3 overflow-hidden text-dark mb-3" id="accordionFlushExample">
+  
+              <div class="accordion border border-light-subtle rounded-3 overflow-hidden text-dark" id="accordionFlushExample">
+                <div class="accordion accordion-flush bg-body-secondary" id="accordionFlushExample">
+                  <h3 class="fw-normal m-0 p-3 border-bottom" style="font-size: calc(1rem + 0.2vw);">Course table of contents</h3>
+                  
+                  <% if (course.content && course.content.length > 0) { %>
+                    <% course.content.forEach(function(section, index) { %>
+                      <div class="accordion-item bg-body-secondary text-secondary-emphasis">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<%= index %>" aria-expanded="false" aria-controls="flush-collapse<%= index %>">
+                            <%= section.sectionTitle %>
+                          </button>
+                        </h2>
+                        <div id="flush-collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <% if (section.lectures && section.lectures.length > 0) { %>
+                              <% section.lectures.forEach(function(lecture, index) { %>
+                                <div class="col-12 mb-1 enroll-course-lecture-item" data-src="/images/uploads/<%= lecture.lectureVideo %>" data-index="<%= index %>" style="cursor: pointer;">
+                                  <i class="bi bi-play-fill me-2"></i>
+                                  <%= lecture.lectureTitle %>
+                                  <i class="bi bi-check" style="display: none;"></i> <!-- Check icon hidden initially -->
+                                </div>
+                              <% }); %>
+                            <% } %>
+                          </div>
+                        </div>
+                      </div>
+                    <% }); %>
+                  <% } %>
+                </div>
+              </div>              
+  
+            </div>
+
+            <div class="col-12">
+              <div class="card p-3 p-lg-4 border-0 bg-body-secondary">
+
+                <div class="col-12 mb-3 d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <div class="bg-dark rounded-circle overflow-hidden me-3" style="width:calc(40px + 0.6vw);height:calc(40px + 0.6vw);">
+                      <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= userData.userPicture %>">
+                    </div>
+                    <div>
+                      <p class="mb-0 fw-normal lh-1" style="font-size: calc(0.8rem + 0.4vw);"><%= course.ownerName %></p>
+                      <span class="text-body-secondary lh-1" style="font-size: calc(10px + 0.3vw);"><%= new Date(course.date).toLocaleDateString() %> at <%= new Date(course.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %> </span>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div id="averageStars" class="text-warning" style="font-size: calc(0.6rem + 0.4vw);">
+                      <% for (let i = 1; i <= 5; i++) { %>
+                        <i class="bi <%= i <= Math.round(averageRating) ? 'bi-star-fill text-warning' : 'bi-star text-secondary' %>"></i>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-body p-0 mb-2">
+                  <p class="card-text text-body-secondary" style="font-size: calc(0.8rem + 0.3vw);"><%= course.aboutCourse %></p>
+                </div>
+
+                <div class="d-flex align-items-center feedback-card" data-review-id="<%= owner._id %>" style="font-size: calc(1rem + 0.1vw);">
+                  <p class="mb-0 me-3 me-lg-4">Helpful?</p>
+                  <div class="d-flex align-items-center">
+                    <div class="thumb thumb-up border border-secondary rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: calc(30px + 0.3vw); height: calc(30px + 0.3vw); cursor: pointer;">
+                      <i class="bi bi-hand-thumbs-up text-body-secondary"></i>
+                    </div>
+                    <div class="thumb thumb-down border border-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: calc(30px + 0.3vw); height: calc(30px + 0.3vw); cursor: pointer;">
+                      <i class="bi bi-hand-thumbs-down text-body-secondary mt-1"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+
+        <div class="col-12 col-lg-7 mb-3 mb-lg-5">
+          <h3 style="font-size: calc(1.3rem + 0.3vw);">About Course</h3>
+          <p class="text-break text-dark-emphasis mb-3 mb-lg-4" style="font-size: calc(1rem + 0.3vw);"><%= course.paragraph %></p>
+          <h3 class="fw-normal" style="font-size: calc(1.3rem + 0.3vw);">What you’ll learn</h3>
+
+          <div class="col-12 text-dark-emphasis mb-3 mb-lg-4">
+
+            <% if (course.learning && course.learning.length > 0) { %>
+              <% course.learning.forEach(function(point) { %>
+                <p class="mb-2" style="font-size: calc(1rem + 0.2vw);">
+                  <span class="me-3" style="font-size: calc(1rem + 0.1vw);">
+                    <i class="bi bi-check-lg"></i>
+                  </span><%= point %>
+                </p>
+              <% }); %>
+            <% } %>
+
+          </div>
+
+          <h3 class="fw-normal mb-3" style="font-size: calc(1.3rem + 0.3vw);">Explore relative topics</h3>
+
+          <div class="col-12">
+            <div class="row g-1 g-lg-2">
+
+              <% if (course.topics && course.topics.length > 0) { %>
+                <% course.topics.forEach(function(topic) { %>
+                    <div style="width: fit-content;">
+                      <button style="font-size: calc(0.9rem + 0.2vw); padding: 8px 25px; border-color: #828386;" class="rounded-1 text-dark-emphasis bg-transparent"><%= topic %></button>
+                    </div>
+                <% }); %>
+                <% } %>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <h3 class="fw-medium mb-3 mb-lg-4" style="font-size: calc(1.1rem + 1vw);">User review</h3>
+
+          <div class="row row-cols-1 row-cols-md-2 g-3" id="reviewContainer">
+
+            <% if (course.reviews.length > 0) { %>
+              <% course.reviews.reverse().forEach(review => { %>
+                <div class="col review-card">
+                  <div class="card p-3 p-lg-4 border-0 bg-body-secondary">
+            
+                    <!-- Reviewer Info -->
+                    <div class="col-12 mb-3 d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <div class="bg-dark rounded-circle overflow-hidden me-3" style="width:calc(40px + 0.6vw);height:calc(40px + 0.6vw);">
+                          <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= review.user?.userPicture || '/default.jpg' %>" alt="">
+                        </div>
+                        <div>
+                          <p class="mb-0 fw-normal lh-1" style="font-size: calc(0.8rem + 0.4vw);">
+                            <%= review.user?.username || 'Anonymous' %>
+                          </p>
+                          <span class="text-body-secondary lh-1" style="font-size: calc(10px + 0.3vw);">
+                            <%= new Date(review.date).toLocaleDateString() %> at <%= new Date(review.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+                          </span>
+                        </div>
+                      </div>
+            
+                      <!-- Star Rating -->
+                      <div class="d-flex align-items-center"  style="font-size: calc(0.6rem + 0.4vw);">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                          <i class="bi <%= i <= review.rating ? 'bi-star-fill text-warning ms-1' : 'bi-star text-secondary ms-1' %>"></i>
+                        <% } %>
+                      </div>
+                    </div>
+            
+                    <!-- Review Text -->
+                    <div class="card-body p-0 mb-2">
+                      <p class="card-text text-body-secondary" style="font-size: calc(0.8rem + 0.3vw);">
+                        <%= review.reviewText %>
+                      </p>
+                    </div>
+            
+                    <!-- Like Section (optional/static) -->
+                    <div class="d-flex align-items-center feedback-card" data-review-id="<%= review._id %>" style="font-size: calc(1rem + 0.1vw);">
+                      <p class="mb-0 me-3 me-lg-4">Helpful?</p>
+                      <div class="d-flex align-items-center">
+                        <div class="thumb thumb-up border border-secondary rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: calc(30px + 0.3vw); height: calc(30px + 0.3vw); cursor: pointer;">
+                          <i class="bi bi-hand-thumbs-up text-body-secondary"></i>
+                        </div>
+                        <div class="thumb thumb-down border border-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: calc(30px + 0.3vw); height: calc(30px + 0.3vw); cursor: pointer;">
+                          <i class="bi bi-hand-thumbs-down text-body-secondary mt-1"></i>
+                        </div>
+                      </div>
+                    </div>
+            
+                  </div>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <div class="col-12">
+                <p class="text-body-secondary mb-0" style="font-size: calc(0.8rem + 0.3vw);">No reviews yet. Be the first to write a review!</p>
+              </div>
+            <% } %>
+
+          </div>
+
+          <div class="d-flex mt-4 mt-lg-5" style="width: fit-content;">
+            <button id="showMoreBtn" style="font-size: calc(0.8rem + 0.2vw);padding: 8px 25px; border-color: #828386;" class="rounded-1 text-dark-emphasis bg-transparent me-2">
+              Show more reviews
+            </button>
+            <button id="showLessBtn" style="display: none; font-size: calc(0.8rem + 0.2vw);padding: 8px 25px; border-color: #828386;" class="rounded-1 text-dark-emphasis bg-transparent">
+              Show less
+            </button>
+          </div>
+
+        </div>
+
+    </div>
+
+    
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div id="feedbackToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <p class="fw-medium me-auto mb-0">Student Feedback</p>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body py-0">
+
+      <!-- Review Form -->
+      <div id="reviewForm">
+        <div id="starContainer" class="starContainer my-1" data-id="<%= course._id %>">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+        <textarea id="userReview" class="form-control mb-2" placeholder="Write your review..."></textarea>
+        <button id="submitReview" class="btn btn-sm btn-primary w-100 mb-3 py-2">Submit Review</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<%- include('./partials/footer.ejs')  %>

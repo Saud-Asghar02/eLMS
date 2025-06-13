@@ -1,0 +1,235 @@
+<!-- <style>
+ .cart-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      margin-right: 10px;
+  }
+
+  .cart-item .item-details {
+      flex: 1;
+  }
+
+
+</style> -->
+
+<nav class="navbar navbar-expand-lg mb-lg-1">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><img src="/images/logo.svg"></a>
+      <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-1"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto ms-xxl-4 mb-2 mb-lg-0">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link text-dark" id="exploreDropdown" style="cursor: pointer;">
+                  Explore
+                  <img src="/images/chevron-down.svg" style="width: 15px;">
+                </a>
+
+                <div class="col-12 d-flex flex-wrap">
+
+                  <!-- Step 1: Categories -->
+                  <div class="dropdown-menu step-1 mt-lg-3">
+                    <div class="category-list"></div> <!-- Categories loaded here -->
+                  </div>
+
+                  <!-- Step 2: Subcategories -->
+                  <div class="dropdown-menu step-2 mt-lg-3">
+                    <div class="subcategory-list"></div> <!-- Subcategories loaded here -->
+                  </div>
+
+                  <!-- Step 3: Topics -->
+                  <div class="dropdown-menu step-3 mt-lg-3">
+                    <div class="detail-list"></div> <!-- Topics loaded here -->
+                  </div>
+
+                </div>
+
+            </li>
+
+          <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Program</a>
+          </li>
+        </ul>
+
+        <form id="searchForm" class="custom-search-bar me-auto py-1" role="search">
+          <span class="search-icon"><i class="fas fa-search mx-2"></i></span>
+          <input type="text" id="searchInput" class="form-control custom-search-bar-input p-0" placeholder="Search..." aria-label="Search" autocomplete="off">
+          <ul id="searchSuggestions" class="w-100 mt-2"></ul>
+        </form>
+      
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-xxl-4">
+            <li class="nav-item position-relative">
+                <a class="nav-link me-xxl-3 p-0" aria-current="page" href="#" style="margin-top: 7px;">
+                    <!-- <div class="position-absolute rounded-circle bg-danger" style="width: 8px;height: 8px;margin-left: 10px;margin-top: 2px;"></div> -->
+                    <img src="/icons/notification.svg" style="width: 20px;">
+                </a>
+            </li>
+
+            <li class="nav-item cart-container">
+
+              <a class="nav-link active me-xxl-1" href="/cart">Cart <span style="font-size: 13px;">(<%= userCartInfo && userCartInfo.cart ? userCartInfo.cart.length : 0 %>)</span></a>
+              <div class="cart-dropdown py-3">
+                <% if (userCartInfo && userCartInfo.cart.length > 0) { %>
+                    <h5 class="mx-2 mx-lg-3 mb-2" style="font-size: calc(1rem + 0.2vw);">Shopping Cart</h5>
+                    <div class="cart-courses">
+                    <% userCartInfo.cart.forEach(course => { %>
+                      <a href="/courses/single-course/<%= course._id %>" class="text-dark">
+                        <div class="cart-items py-2">
+                          <div class="d-flex align-items-center">
+                            <div>
+                              <div class="rounded-3 mx-2 ms-lg-3 me-lg-2" style="width: calc(60px + 0.5vw);height: calc(60px + 0.5vw);overflow: hidden;">
+                                <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= course.image %>">
+                              </div>
+                            </div>
+                            <div>
+                              <div class="card-body me-2 me-lg-3">
+                                <p class="card-text fw-medium lh-sm mb-0" style="font-size: 14px;"><%= course.title %></p>
+                                <p class="card-text text-body-secondary mb-0" style="font-size: 0.8rem;">Author : <small class="text-dark"><%= course.ownerName %></small></p>
+                                <div class="d-flex align-items-center" style="font-size: 0.8rem;">
+                                  <p class="card-text fw-medium mb-0 me-2">$<%= course.price %>.00</p>
+                                  <p class="card-text fw-medium mb-0" style="color: rgb(2, 206, 2);"><s>$<%= course.discount %>.00</s></p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      </a>
+                      <hr class="m-0">
+                      <% }); %>
+                    </div>
+                  <% 
+                    let totalPrice = userCartInfo.cart.reduce((sum, course) => sum + course.price, 0);
+                    let totalDiscount = userCartInfo.cart.reduce((sum, course) => sum + course.discount, 0);
+                  %>
+                
+                  <div class="col-12 px-2 px-lg-3 mt-3">
+                    <div class="d-flex align-items-center mb-2" style="font-size: calc(1rem + 0.1vw);">
+                      <p class="card-text fw-medium mb-0 me-2">$<%= totalPrice %>.00</p>
+                      <p class="card-text fw-medium mb-0" style="color: rgb(2, 206, 2);"><s>$<%= totalDiscount %>.00</s></p>
+                    </div>
+                    <a href="/cart">
+                      <button type="button" class="w-100 btn btn-primary">Go to cart</button>
+                    </a>
+                  </div>
+                <% } else if (userCartInfo && userCartInfo.cart.length === 0) { %>
+                  <p class="mb-0 p-4 text-center text-body-secondary">
+                    <span class="fs-5 fw-medium text-primary">Oops!</span><br>No lessons in your cart. Start your learning journey today!
+                  </p>
+                <% } else { %>
+                  <p class="mb-0 p-4 text-center text-body-secondary">
+                    <span class="fs-5 fw-medium text-primary">Oops!</span><br>You need to be logged in to view your cart.
+                  </p>
+                <% } %>
+              </div>
+              
+
+            </li>
+
+            <div class="d-flex align-items-center ms-lg-1 ms-xl-2 ms-xxl-4">
+                <% if (isLoggedIn) { %>
+                  <div class="user-profile d-flex align-items-center">
+                    <div class="rounded-circle overflow-hidden me-1 bg-dark" style="width: 30px; height: 30px;">
+                      <% if (user.userPicture) { %>
+                        <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= user.userPicture %>" alt="User Picture">
+                        <% } else { %>
+                        <img class="w-100 h-100 object-fit-cover" src="/images/uploads/default.jpg" alt="Default Picture">
+                      <% } %>
+                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link active me-xl-2 me-xxl-3" aria-current="page">
+                            <%= user.username %> <!-- Display logged-in user's name -->
+                        </a>
+                    </li>
+
+                    <div class="user-profile-dropdown px-2 py-3">
+                      
+                      <div class="col-12 d-flex align-items-center mb-3 user-admin-profile" onclick="window.location.href='/owner/admin'" style="cursor: pointer;">
+                        <div class="rounded-circle overflow-hidden me-1 bg-dark" style="width: 40px; height: 40px;">
+                          <% if (user.userPicture) { %>
+                            <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= user.userPicture %>" alt="User Picture">
+                            <% } else { %>
+                            <img class="w-100 h-100 object-fit-cover" src="/images/uploads/default.jpg" alt="Default Picture">
+                          <% } %>
+                        </div>
+                        <div class="ms-2">
+                          <li class="nav-items" style="font-size: 16px;">
+                            <a class="nav-link active p-0 lh-sm" aria-current="page" href="/owner/admin">
+                                <%= user.username %> <!-- Display logged-in user's name -->
+                            </a>
+                          </li>
+                          <li class="nav-items user-profile-email" style="font-size: 12px; width: 200px;">
+                            <a class="nav-link w-100 p-0 lh-sm text-truncate d-inline-block overflow-hidden" aria-current="page" href="/owner/admin">
+                              <%= user.email %>
+                            </a>
+                          </li>
+                        </div>
+                      </div>
+
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="/courses/single-page/learning">My Learning</a>
+                      </li>
+                      <li class="nav-item d-flex align-items-center">
+                        <a class="nav-link text-dark py-1" href="/cart">My Cart</a>
+                        <div class="profile-cart-counter d-none">
+                          <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle" style="width: 20px; height: 20px;">
+                            <span class="text-white cart-counter" style="font-size: 11px;margin-top: 2px;"><%= userCartInfo && userCartInfo.cart ? userCartInfo.cart.length : 0 %></span>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="">Wishlist</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="">Teach on me</a>
+                      </li>
+
+                      <hr class="my-1">
+
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="">Notification</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="">Messages</a>
+                      </li>
+
+                      <hr class="my-1">
+
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="/owner/admin">Account setting</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="">Payment methods</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark py-1" href="">Certificate</a>
+                      </li>
+                      <li class="nav-item mb-3">
+                        <a class="nav-link text-dark py-1" href="">Help and Support</a>
+                      </li>
+
+                      <button type="button" class="btn btn-primary p-0 px-4 ms-lg-2">
+                        <a class="nav-link text-white py-2" href="/user/logout">Logout</a>
+                      </button>
+
+                    </div>
+                  </div>
+
+                <% } else { %>
+                    <div class="d-flex align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link active me-xl-2 me-xxl-3" aria-current="page" href="/user/login">Log in</a>
+                        </li>
+                        <a href="/user/register">
+                            <button type="button" class="btn btn-light border border-black ms-3 ms-lg-0">Create free account</button>
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+            
+        </ul>
+      </div>
+    </div>
+</nav>

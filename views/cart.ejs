@@ -1,0 +1,120 @@
+<%- include('./partials/header.ejs')  %>
+<%- include('./partials/navbar.ejs')  %>
+
+<style>
+  .card {
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .card:hover {
+    background-color: rgb(226, 226, 226);
+  }
+</style>
+
+<div class="container" style="margin-bottom: calc(50px + 3vw);">
+    <div class="catagory mb-3 mb-lg-4">
+        <div class="d-flex align-items-center">
+           <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Home</h3>
+           <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+           <h3 class="mb-0 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Shopping Cart</h3>
+        </div>
+    </div>
+
+    <h1 class="mb-3 mb-lg-4" style="font-size: calc(1rem + 1vw);">Shopping Cart</h1>
+
+    <div class="row">
+
+      <div class="col-12 col-lg-8">
+  
+        <% if (userCartInfo.cart.length > 0) { %>
+          <% userCartInfo.cart.forEach(course => { %>
+            <div class="card mb-3 border-0" onclick="window.location.href='/courses/single-course/<%= course._id %>'">
+              <div class="row align-items-center g-0">
+                <div class="col-md-4">
+                  <div class="rounded-3 overflow-hidden bg-info" style="width: 100%; height: calc(180px + 1vw);">
+                    <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= course.image %>">
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body p-0 mt-3 mt-md-0 p-md-3">
+                    <h5 class="card-title" style="font-size: calc(1rem + 0.3vw);"><%= course.title %></h5>
+                    <p class="card-text text-body-secondary mb-2" style="font-size: calc(0.9rem + 0.1vw);">
+                      <%= course.description %>
+                    </p>
+      
+                    <div class="d-flex flex-wrap align-items-center">
+                      <p class="card-text text-body-secondary me-4 me-lg-5 mb-0" style="font-size: calc(0.9rem + 0.1vw);">
+                        Created By : <span class="text-dark fw-normal"><%= course.ownerName %></span>
+                      </p>
+                      <p class="card-text text-body-secondary" style="font-size: calc(0.9rem + 0.1vw);">
+                        Level : <span class="text-dark fw-normal"><%= course.level %></span>
+                      </p>
+                    </div>
+      
+                    <div class="col-12 d-flex flex-wrap align-items-center justify-content-between">
+                      <div class="d-flex align-items-center mb-1" style="font-size: calc(1rem + 0.1vw);">
+                        <p class="mb-0 me-3 me-md-4">$<%= course.price %>.00</p>
+                        <p class="mb-0" style="color: rgb(2, 206, 2);"><s>$<%= course.discount %>.00</s></p>
+                      </div>
+                      <a class="text-danger text-decoration-none" href="/courses/single-course/removefromcart/<%= course._id %>" onclick="event.stopPropagation();">Remove</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+          <% }); %>
+        <% } else { %>
+          <p class="mb-0 p-4 text-center text-body-secondary">
+            <span class="fs-5 fw-medium text-primary">Oops!</span><br>No lessons in your cart. Start your learning journey today!
+          </p>
+        <% } %>
+      </div>
+
+      <% if (userCartInfo.cart.length > 0) { %>
+      <div class="col-12 col-lg-4">
+        <div class="border rounded-3 p-3 py-4">
+          <h5>About</h5>
+          <p class="mb-2">Allows users to select multiple courses they want to purchase or enroll in and proceed to checkout together.</p>
+          <p class="text-body-secondary mb-0">Cart : <span class="text-dark">Shopping Cart</span></p>
+          <p class="text-body-secondary">Course : <span class="text-dark">List of Selected Courses</span></p>
+          <h5 class="mb-3">Payment Methods</h5>
+          <div class="col-12 d-flex mb-3">
+              <div class="col-3 px-1" style="height: 45px;">
+                <div class="w-100 h-100 rounded-3 border d-flex align-items-center justify-content-center"><img style="width: 80%;height: 23px;" src="/icons/visa.png"></div>
+              </div>
+              <div class="col-3 px-1" style="height: 45px;">
+                <div class="w-100 h-100 rounded-3 border d-flex align-items-center justify-content-center"><img style="width: 80%;height: 25px;" src="/icons/masterCart.svg"></div>
+              </div>
+              <div class="col-3 px-1" style="height: 45px;">
+                <div class="w-100 h-100 rounded-3 border d-flex align-items-center justify-content-center"><img style="width: 80%;height: 18px;" src="/icons/abl.png"></div>
+              </div>
+              <div class="col-3 px-1" style="height: 45px;">
+                <div class="w-100 h-100 rounded-3 border d-flex align-items-center justify-content-center"><img style="width: 80%;height: 18px;" src="/icons/hbl.png"></div>
+              </div>
+          </div>
+
+          <% 
+          let totalPrice = userCartInfo.cart.reduce((sum, course) => sum + course.price, 0);
+          let totalDiscount = userCartInfo.cart.reduce((sum, course) => sum + course.discount, 0);
+          %>
+
+          <p class="text-body-secondary mb-1" style="font-size: 19px;">Total : <span class="text-dark fw-medium">$<%= totalPrice %>.00</span></p>
+          <p class="text-body-secondary" style="font-size: 19px;">Total Discount : <span class="fw-medium"  style="color: rgb(2, 206, 2);"><s>$<%= totalDiscount %>.00</s></span></p>
+
+          <a class="col-12 icon-link icon-link-hover d-flex justify-content-center align-items-center btn btn-primary" href="/courses/single-page/payment" style="padding-block: 10px;">
+            Proceed to Checkout
+            <svg xmlns="http://www.w3.org/2000/svg" class="bi" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+          </a>
+
+        </div>
+      </div>
+      <% } %>
+      
+    </div>
+
+</div>
+
+<%- include('./partials/footer.ejs')  %>

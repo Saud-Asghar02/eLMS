@@ -1,0 +1,440 @@
+<%- include('./partials/header.ejs')  %>
+<%- include('./partials/navbar.ejs')  %>
+
+<style>
+    .footer {
+        display: none;
+    }
+</style>
+
+<form action="/owner/admin/new-course/<%= user._id %>" method="post" enctype="multipart/form-data">
+
+<div class="container">
+    <div class="col-12 d-flex flex-wrap justify-content-between mb-3">
+        <div>
+            <div class="d-flex align-items-center mb-2">
+                <h1 class="mb-0"  style="font-size: calc(1.2rem + 0.7vw);">Create Course</h1>
+                <button class="px-2 text-body border-0 rounded-1 ms-3">Draft</button>
+            </div>
+            <div class="catagory mb-3">
+                <div class="d-flex align-items-center">
+                   <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Home</h3>
+                   <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+                   <h3 class="text-body-secondary mb-0 fw-normal me-3 me-lg-4" style="font-size: calc(0.9rem + 0.1vw);">My Profile</h3>
+                   <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+                   <h3 class="mb-0 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Create Course</h3>
+                </div>
+            </div>
+        </div>
+        <div class="mt-lg-2">
+            <button type="submit" class="btn btn-primary" style="padding: 10px 15px;">Publish Course</button>
+        </div>
+    </div>
+</div>
+
+<div class="container create-course-section">
+    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+        <li class="nav-item me-1" role="presentation">
+          <button class="nav-link active" id="pills-plan-course" data-bs-toggle="pill" data-bs-target="#pills-plan" type="button" role="tab" aria-controls="pills-plan" aria-selected="true">
+            <i class="bi bi-check-circle-fill me-2"></i>Plain Course</button>
+        </li>
+        <li class="nav-item me-1" role="presentation">
+          <button class="nav-link" id="pills-course-content" data-bs-toggle="pill" data-bs-target="#pills-content" type="button" role="tab" aria-controls="pills-content" aria-selected="false">
+            <i class="bi bi-check-circle-fill me-2"></i>Create Your Content</button>
+          </button>
+        </li>
+        <li class="nav-item me-1" role="presentation">
+            <button class="nav-link" id="pills-learning-path" data-bs-toggle="pill" data-bs-target="#pills-learn" type="button" role="tab" aria-controls="pills-learn" aria-selected="false">
+              <i class="bi bi-filter-circle-fill me-2"></i>Learning Path</button>
+            </button>
+        </li>
+        <li class="nav-item me-1" role="presentation">
+            <button class="nav-link" id="pills-payment-tab" data-bs-toggle="pill" data-bs-target="#pills-payment" type="button" role="tab" aria-controls="pills-payment" aria-selected="false">
+              <i class="bi bi-check-circle-fill me-2"></i>Price Plan</button>
+            </button>
+        </li>
+    </ul>
+
+    <hr class="mt-0">
+
+    <div class="row g-3">
+
+        <div class="col-12 col-lg-8">
+          <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h1 class="mb-0" style="font-size: calc(1rem + 0.5vw);">Instruction</h1>
+                        <button class="px-2 py-1 text-body bg-transparent border rounded-1 ms-3" style="font-size: calc(0.7rem + 0.2vw);">
+                            <i class="bi bi-question-circle text-body-secondary me-2"></i>Help!</button>
+                    </div>
+                    <p class="col-12 col-lg-10 text-body-secondary mb-0" style="font-size: calc(0.8rem + 0.2vw);">Create a new course by adding a title, category, description, and learning outcomes. Upload video lessons, tasks, and resources to engage students.</p>
+                </div>
+                <hr class="p-0">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <div style="font-size: calc(0.8rem + 0.2vw);">
+                        <i class="bi bi-info-circle me-2"></i>Fill out the course form with a title, category, description, and learning outcomes. Upload videos, and resources to make learning interactive.
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div class="col-12 border rounded-3 p-3">
+                    <div class="tab-content" id="pills-tabContent">
+
+                        <div class="tab-pane fade show active" id="pills-plan" role="tabpanel" aria-labelledby="pills-plan-course" tabindex="0">
+                            <h1 class="mb-3 mb-lg-4" style="font-size: calc(1rem + 0.5vw);">Plan Course</h1>
+                            
+                            <div class="row">
+
+                                <div class="col-12 col-md-4 col-lg-5">
+                                    <div class="mb-3">
+                                        <label for="courseImage" class="profile-container">
+                                          <i class="fas fa-camera text-body-tertiary default-icon" style="font-size: calc(0.8rem + 0.8vw);"></i>
+                                          <img id="profileImage" src="" alt="User Image">
+                                        </label>
+                                        <input type="file" id="courseImage" class="courseImage" name="image" accept="image/*">
+                                        <p class="text-body-secondary mt-2" style="font-size: calc(0.8rem + 0.2vw);">Click to upload image</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="title" class="form-label text-dark-emphasis">Enter Title</label>
+                                      <input 
+                                      type="text" 
+                                      id="title" 
+                                      class="form-control py-3" 
+                                      placeholder="Title Here." 
+                                      maxlength="80" 
+                                      name="title" 
+                                      required>
+                                      <div id="charCounter" class="char-counter" style="font-size: calc(0.7rem + 0.1vw);">0 / 80</div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="paragraph" class="form-label text-dark-emphasis">Enter Paragraph</label>
+                                    <textarea 
+                                    id="paragraph" 
+                                    class="form-control" 
+                                    placeholder="Paragraph Here." 
+                                    maxlength="200" 
+                                    style="height: 100px;" 
+                                    name="paragraph"
+                                    required></textarea>
+                                    <div id="paragraphCharCounter" class="char-counter" style="font-size: calc(0.7rem + 0.1vw);">0 / 200</div>
+                                </div>
+
+                                <div class="col-md-4 col-xl-4 mb-3 mb-lg-0 me-xl-3">
+                                    <label for="language" class="form-label text-dark-emphasis">Languages</label>
+                                    <select id="language" class="form-select py-3" name="language">
+                                        <option value="English">English</option>
+                                        <option value="Urdu">Urdu</option>
+                                        <option value="Hindi">Hindi</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-8 col-xl-7">
+                                    <label class="col-12 form-label text-dark-emphasis">Level</label>
+                                    <div class="form-check form-check-inline py-md-3">
+                                      <input class="form-check-input" type="radio" name="level" id="inlineRadio1" value="Beginner" checked>
+                                      <label class="form-check-label" for="inlineRadio1">Beginner</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="level" id="inlineRadio2" value="Intermediate">
+                                      <label class="form-check-label" for="inlineRadio2">Intermediate</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                      <input class="form-check-input" type="radio" name="level" id="inlineRadio3" value="Expert">
+                                      <label class="form-check-label" for="inlineRadio3">Expert</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+            
+                        <div class="tab-pane fade" id="pills-content" role="tabpanel" aria-labelledby="pills-course-content" tabindex="0">
+                            <h1 class="mb-3 mb-lg-4" style="font-size: calc(1rem + 0.5vw);">Create Your Content</h1>
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-4 col-lg-5">
+                                    <div class="mb-3">
+                                        <label for="courseVideo" class="profile-container" style="cursor: pointer;">
+                                            <i class="bi bi-camera-reels-fill text-body-tertiary demo-video-icon" style="font-size: calc(0.8rem + 0.8vw);"></i>
+                                            <video id="videoPreview"></video>
+                                        </label>
+                                        <input type="file" id="courseVideo" class="courseVideo" name="video" accept="video/*" style="display: none;">
+                                        <p class="text-body-secondary mt-2" style="font-size: calc(0.8rem + 0.2vw);">Click to upload video</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="aboutCourse" class="form-label text-dark-emphasis">About Course</label>
+                                    <textarea 
+                                    id="aboutCourse" 
+                                    class="form-control" 
+                                    placeholder="About Course Here." 
+                                    maxlength="200" 
+                                    style="height: 100px;" 
+                                    name="aboutCourse"
+                                    required></textarea>
+                                    <div id="aboutCharCounter" class="char-counter" style="font-size: calc(0.7rem + 0.1vw);">0 / 200</div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="description" class="form-label text-dark-emphasis">Enter Description</label>
+                                    <textarea 
+                                    id="description" 
+                                    class="form-control" 
+                                    placeholder="Description Here."
+                                    style="height: 140px;" 
+                                    name="description"
+                                    required></textarea>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="form-label text-dark-emphasis">Requirement <span id="requirementCounter" class="text-dark-emphasis ms-2" style="font-size: calc(0.8rem + 0.1vw);">0/5</span></label>
+                                        <i id="requirement" class="bi bi-plus-circle fw-light text-secondary" 
+                                        style="font-size: calc(1rem + 0.3vw);cursor: pointer;"></i>
+                                    </div>
+                                    <div id="newRequirement">
+                                        <!----- New Requirement Here. ----->
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label text-dark-emphasis">
+                                        Select a Topics 
+                                        <span class="text-dark-emphasis ms-2" style="font-size: calc(0.8rem + 0.1vw);" id="topic-count">0/8</span>
+                                    </label>
+                                    <div class="col-12 d-flex flex-wrap gap-2 border rounded-2 p-2 topics-container" id="topics-container">
+                                        <% let topics = [
+                                        // Development
+                                        "Development", "Web Development", "Front-End Development", "Back-End Development", "Full-Stack Development", 
+                                        "HTML", "CSS", "JavaScript", "TypeScript", "React", "Angular", "Vue.js", "Svelte", 
+                                        "Next.js", "Node.js", "Express.js", "Python", "Django", "Flask", "FastAPI", "Java", "Java for Android", "Spring Boot", 
+                                        "Kotlin", "Swift", "Flutter", "React Native", "Mobile App Development", "Game Development",
+                                        "2D Game Development","3D Game Development","Godot", "Unity", "Unreal Engine","C", "C++", "C#", "PHP", "WordPress Development", "Shopify Development", 
+                                        "Data Structures & Algorithms", "Programming Language", "System Design", "Web3 & Blockchain Development",
+                                        "Bootstrap", "Tailwind CSS",
+                                    
+                                        // Data Science & AI
+                                        "Data Science", "Machine Learning", "Deep Learning", "Artificial Intelligence", 
+                                        "Computer Vision", "Natural Language Processing", "Big Data", "Data Analytics", 
+                                        "Data Engineering", "SQL", "MongoDB", "PostgreSQL", "MySQL", "Power BI", "Excel for Data Analysis",
+                                        "Pandas", "NumPy", "TensorFlow", "PyTorch", "R Programming",
+                                    
+                                        // IT & Software
+                                        "Cyber Security", "Network Security", "Ethical Hacking", "Penetration Testing", "Networking", "Information Technology", 
+                                        "Cloud Computing", "AWS", "Google Cloud", "Microsoft Azure", "DevOps", "Docker", "Kubernetes", "CI/CD",
+                                        "AWS Certification", "Cisco Certification", "CompTIA A+", "Microsoft Azure", "Google Cloud Certification",
+                                        "Firewalls", "Cloud Security",
+                                    
+                                        // Business
+                                        "Entrepreneurship", "Business Strategy", "Finance & Accounting", "Investing & Trading", 
+                                        "Stock Market", "Cryptocurrency", "Project Management", "Agile & Scrum", "Product Management", 
+                                        "Business Analytics", "Marketing Analytics", "PMP", "Product Roadmaps",
+                                    
+                                        // Design & Creativity
+                                        "UI/UX Design", "Graphic Design", "Figma", "Adobe Photoshop", "Adobe Illustrator", 
+                                        "Canva", "3D Modeling", "Motion Graphics", "Video Editing", "Photography",
+                                        "Adobe XD", "Sketch","Game Design", "Blender", "Maya", "Cinema 4D", "ZBrush",
+                                    
+                                        // Marketing
+                                        "Digital Marketing", "Social Media Marketing", "SEO", "Google Ads", "Facebook Ads", 
+                                        "Content Marketing", "Affiliate Marketing", "Email Marketing", "E-commerce Marketing",
+                                    
+                                        // Lifestyle & Personal Development
+                                        "Productivity", "Time Management", "Public Speaking", "Mindfulness", "Leadership", 
+                                        "Personal Finance", "Fitness", "Yoga", "Meditation", "Music Production", "Language Learning",
+                                        "Cognitive Behavioral Therapy (CBT)", "Emotional Intelligence",
+                                    
+                                        // Teaching & Academics
+                                        "Mathematics", "Science", "Physics", "Chemistry", "Biology", "Engineering", "Economics", 
+                                        "Psychology", "History", "Political Science", "Philosophy", "Education & Teaching",
+                                        "Mechanical Engineering", "Civil Engineering", "Electrical Engineering", "Chemical Engineering",
+                                        "Algebra", "Calculus", "Statistics", "Probability", "Linear Algebra", "Discrete Math",
+                                    
+                                        // Photography & Video
+                                        "Photo Editing", "Lightroom", "Photoshop", "GIMP", "Color Correction", "Retouching", 
+                                        "DSLR Basics", "Lighting Techniques", "Portrait Photography", "Landscape Photography", 
+                                        "Street Photography", "Wildlife Photography", "Videography", "Video Editing", 
+                                        "Adobe Premiere Pro", "Final Cut Pro", "Cinematography", "Drone Videography", "YouTube Video Creation",
+                                        "Storytelling in Film"
+                                    ]; %>
+                                    
+                                    
+                                        <% topics.forEach(topic => { %>
+                                            <div>
+                                                <input type="checkbox" class="topic-checkbox" id="<%= topic %>" name="topics" value="<%= topic %>">
+                                                <label for="<%= topic %>" class="topic-label rounded-1"><%= topic %></label>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                            
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-learn" role="tabpanel" aria-labelledby="pills-learning-path" tabindex="0">
+                            <h1 class="mb-3 mb-lg-4" style="font-size: calc(1rem + 0.5vw);">Learning Path</h1>
+
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="form-label text-dark-emphasis">what will learn? <span id="learning-path-counter" class="text-dark-emphasis ms-2" style="font-size: calc(0.8rem + 0.1vw);">0/8</span></label>
+                                    <i id="learning-path" class="bi bi-plus-circle fw-light text-secondary" 
+                                    style="font-size: calc(1rem + 0.3vw);cursor: pointer;"></i>
+                                </div>
+                                <div id="new-learning-path">
+                                    <div class="input-group mb-3 inputGroupContainer position-relative">
+                                        <input type="text" class="form-control rounded-start-2 py-3 pe-5 learning-path-input" placeholder="Type Here" maxlength="160" name="learning" required>
+                                        <span class="input-group-text rounded-end-2 remove-learning-path" style="cursor: pointer;">
+                                            <i class="bi bi-trash3 fs-4 mx-1 text-danger"></i>
+                                        </span>
+                                        <!-- Counter with z-index applied -->
+                                        <span id="input-counter" class="input-counter position-absolute top-50 end-0 translate-middle-y text-muted" style="z-index: 1;font-size: 0.9rem; margin-right: 72px;">160</span>
+                                    </div>
+                                    <div class="input-group mb-3 inputGroupContainer position-relative">
+                                        <input type="text" class="form-control rounded-start-2 py-3 pe-5 learning-path-input" placeholder="Type Here" maxlength="160" name="learning" required>
+                                        <span class="input-group-text rounded-end-2 remove-learning-path" style="cursor: pointer;">
+                                            <i class="bi bi-trash3 fs-4 mx-1 text-danger"></i>
+                                        </span>
+                                        <!-- Counter with z-index applied -->
+                                        <span id="input-counter" class="input-counter position-absolute top-50 end-0 translate-middle-y text-muted" style="z-index: 1;font-size: 0.9rem; margin-right: 72px;">160</span>
+                                    </div>
+                                    <div class="input-group mb-3 inputGroupContainer position-relative">
+                                        <input type="text" class="form-control rounded-start-2 py-3 pe-5 learning-path-input" placeholder="Type Here" maxlength="160" name="learning" required>
+                                        <span class="input-group-text rounded-end-2 remove-learning-path" style="cursor: pointer;">
+                                            <i class="bi bi-trash3 fs-4 mx-1 text-danger"></i>
+                                        </span>
+                                        <!-- Counter with z-index applied -->
+                                        <span id="input-counter" class="input-counter position-absolute top-50 end-0 translate-middle-y text-muted" style="z-index: 1;font-size: 0.9rem; margin-right: 72px;">160</span>
+                                    </div>
+                                    
+                                    <!----- New Learning Path Content Here. ----->
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <label class="form-label text-dark-emphasis">Course Table of Content <span id="course-counter" class="text-dark-emphasis ms-2" style="font-size: calc(0.8rem + 0.1vw);">0/12</span></label>
+                                    <i id="course-content" class="bi bi-plus-circle fw-light text-secondary" 
+                                    style="font-size: calc(1rem + 0.3vw);cursor: pointer;"></i>
+                                </div>
+
+                                <div id="new-course-content">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-payment" role="tabpanel" aria-labelledby="pills-payment-tab" tabindex="0">
+                            <div class="col-12 mb-3 d-flex align-items-center">
+                                <div class="d-flex align-items-center me-3 me-lg-5">
+                                    <img class="me-3" src="/icons/video-lessons.svg" style="width: 18px;">
+                                    <p class="mb-0 text-secondary" id="course-lecture-count"></p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <img class="me-3" src="/icons/video-duration.svg" style="width: 20px;">
+                                    <p class="mb-0 text-secondary" id="course-lecture-video-duration"></p>
+                                </div>
+                            </div>
+                            
+                            <h1 class="mb-3 mb-lg-4" style="font-size: calc(1rem + 0.5vw);">Price Plan</h1>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked style="cursor: pointer;">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                  Paid
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" style="cursor: pointer;">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                  Free
+                                </label>
+                            </div>
+                
+                            <div class="row">
+                                
+                                <div class="col-12 col-md-5 col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="AmountFormInput" class="form-label text-dark-emphasis">Amount</label>
+                                        <input 
+                                        type="text" 
+                                        class="form-control border rounded-2 py-3" 
+                                        id="AmountFormInput"
+                                        name="price"
+                                        placeholder="Amount here."
+                                        required
+                                        >
+                                    </div>
+                                </div>
+                
+                                <div class="col-12 col-md-4 col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="DiscountFormInput" class="form-label text-dark-emphasis">Discount</label>
+                                        <input 
+                                        type="text" 
+                                        class="form-control text-dark border rounded-2 py-3" 
+                                        id="DiscountFormInput"
+                                        name="discount"
+                                        value="0"
+                                        required
+                                        >
+                                    </div>
+                                </div>
+                
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <button class="px-2 py-1 text-body bg-primary-subtle border-0 rounded-1">Course</button>
+                    <button class="px-2 py-1 text-body bg-success-subtle border-0 rounded-1 ms-2">Digital</button>
+                </div>
+                <h1 style="font-size: calc(1rem + 0.5vw);">Create Compelling Course Content</h1>
+                <p class="mb-0 text-body-secondary">Level : <span class="text-dark">Beginner to Intermediate</span></p>
+                <p class="text-body-secondary">Format : <span class="text-dark">Online</span></p>
+                <hr>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h1 class="mb-0" style="font-size: calc(1rem + 0.2vw);" id="monthYear"></h1>
+                    <div style="font-size: calc(1rem + 0.3vw);">
+                        <button class="border-0 bg-transparent text-body-secondary" onclick="changeMonth(-1)"><i class="bi bi-arrow-left-square me-2"></i></button>
+                        <button class="border-0 bg-transparent text-body-secondary" onclick="changeMonth(1)"><i class="bi bi-arrow-right-square"></i></button>
+                    </div>
+                </div>
+                <hr class="mb-2">
+                <div class="week-days" id="days"></div>
+                <hr class="my-2">
+                <div class="calendar mb-3" id="calendar"></div>
+                <div class="text-body-secondary d-flex flex-wrap align-items-center justify-content-between" style="font-size: calc(0.8rem + 0.2vw);">
+                    <p class="mb-0">Calendar view with scheduled dates</p>
+                    <div class="time" id="currentTime"></div>
+                </div>
+                
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+</div>
+
+</form>
+
+<div class="w-50 h-50"></div>
+
+<%- include('./partials/footer.ejs')  %>

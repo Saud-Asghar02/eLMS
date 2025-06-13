@@ -1,0 +1,205 @@
+<%- include('./partials/header.ejs')  %>
+
+<style>
+#errorMessage {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#errorMessage .error {
+    width: fit-content;
+    min-height: 60px;
+    background-color: #FCDAD8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer {
+    display: none;
+}
+</style>
+
+<% if (error.length > 0) { %> 
+    <div class="container-fluid position-absolute" id="errorMessage">
+        <div class="error px-3 px-md-4 rounded-3 d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle text-danger fs-5 me-2 me-md-3" style="font-weight: 900;"></i>
+            <span class="text-danger text-center"> <%- error %> </span>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener('DOMContentLoaded', function () {
+            const errorMessage = document.getElementById('errorMessage');
+            if (errorMessage) {
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+<% } %>
+
+<div class="container w-100 h-100 position-relative register-section">
+    <div class="row h-100 d-flex align-items-center">
+        <div class="col-12 position-absolute top-0 mt-4">
+            <a href="/"><img src="/images/logo.svg"></a>
+        </div>
+
+        <div class="col-lg-7 col-xl-6 my-5 my-lg-0">
+
+            <div class="col-12 text-center mb-3 mb-lg-4">
+                <h3 class="mb-2 text-dark">Create an account</h3>
+                <p class="fs-5 text-body-tertiary">Let’s get Started your journey with us</p>
+            </div>
+
+            <form action="/user/register" method="post" class="px-lg-5 mx-xl-4">
+
+                <div class="mb-3">
+                    <label for="UserFormInput" class="form-label">Username</label>
+                    <input 
+                    type="text" 
+                    class="form-control border-0 rounded-2 bg-body-secondary bg-opacity-75 py-3" 
+                    id="UserFormInput"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                    >
+                </div> 
+
+                <div class="mb-3">
+                    <label for="EmailFormInput" class="form-label">Email</label>
+                    <input 
+                    type="email" 
+                    class="form-control border-0 rounded-2 bg-body-secondary bg-opacity-75 py-3" 
+                    id="EmailFormInput"
+                    name="email"
+                    placeholder="Enter email"
+                    required
+                    >
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="position-relative">
+                      <input 
+                        type="password" 
+                        class="form-control border-0 rounded-2 bg-body-secondary bg-opacity-75 py-3" 
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password" 
+                        required
+                      >
+                      <i 
+                        class="bi bi-eye position-absolute top-50 end-0 translate-middle-y me-3 toggle-icon text-body-secondary" 
+                        id="toggleIcon" 
+                        style="cursor: pointer;font-size: 1.5rem;"
+                      ></i>
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary col-12 rounded-2"
+                        style="padding-block: 0.7rem;">
+                            Create account
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn bg-body-secondary col-12 rounded-2"
+                        style="padding-block: 0.7rem;">
+                        <img src="/icons/google.svg" class="me-2"
+                        style="width: 25px;height: 25px;">
+                            Sign up with google
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <div class="col-12 text-center">
+                    <p class="mb-0" style="font-size: 1.1rem;">Already have an account? 
+                        <a href="/user/login" class="text-decoration-none">Login</a>
+                    </p>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="col-lg-5 col-xl-6 h-100 py-lg-4 p-xl-4 px-xl-5 carosual-section">
+            <div class="carosual px-lg-2 w-100 h-100 position-relative">
+
+                <div class="col-12 h-100 rounded-4" style="overflow: hidden;">
+
+                    <!-- Swiper -->
+                    <div class="swiper mySwiper w-100 h-100 form-swiper">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="/images/form-image-1.avif"></div>
+                        <div class="swiper-slide"><img src="/images/form-image-2.avif"></div>
+                        <div class="swiper-slide"><img src="/images/form-image-3.avif"></div>
+                        <div class="swiper-slide"><img src="/images/form-image-4.avif"></div>
+                      </div>
+
+                      <div class="swiper-pagination mb-4"></div>
+                    </div>
+
+                </div>
+
+                <div class="content w-100 h-100 d-flex flex-column justify-content-between position-absolute top-0 z-1">
+                    <div class="position-relative" style="
+                    width: calc(15.4rem);
+                    height: calc(6rem);">
+                    <div class="w-100 h-100" style="
+                    background-image: url('/images/carosual-personal-bg.svg');
+                    background-repeat: no-repeat;">
+                    </div>
+                    <p class="mb-0 position-absolute top-0 rounded-5 border border-secondary"
+                    style="
+                    padding-block: 1.1rem;
+                    padding-inline: 1.7rem;">
+                    Free for personal use</p>
+                    </div>
+
+                    <div class="mt-lg-5"><h1 class="mb-0 fw-semibold text-white p-lg-4 p-xl-5 mt-lg-5" style="font-size: calc(2rem + 0.3vw);">The simplest way <br> to mange your <br> workfoce</h1></div>
+
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="position-relative" style="
+                        width: calc(7rem);
+                        height: calc(6rem);">
+                        <div class="w-100 h-100" style="
+                        background-image: url('/images/left-arrow-bg.svg');
+                        background-repeat: no-repeat;">
+                        </div>
+                        <div class="position-absolute bottom-0 start-0 rounded-4 d-flex align-items-center justify-content-center" style="width: 75px;height: 69px;background-color: #0e60db">
+                            <i class="bi bi-arrow-down-left fs-3 text-white mt-1 swiper-prev" style="transform: rotate(45deg);cursor: pointer;"></i>
+                        </div>
+                        </div>
+
+                        <div class="position-relative" style="
+                        width: calc(10.5rem);
+                        height: calc(6rem);">
+                        <div class="w-100 h-100" style="
+                        background-image: url('/images/right-arrow-bg.svg');
+                        background-repeat: no-repeat;">
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 rounded-4 me-3 d-flex align-items-center justify-content-center" style="width: 123px;height: 69px;">
+                            <i class="bi bi-arrow-down-right fs-3 text-white mt-1 swiper-next" style="transform: rotate(-45deg);cursor: pointer;;"></i>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer.ejs')  %>

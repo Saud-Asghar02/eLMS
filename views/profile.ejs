@@ -1,0 +1,127 @@
+<%- include('./partials/header.ejs')  %>
+<%- include('./partials/navbar.ejs')  %>
+
+<div class="container text-dark" style="margin-bottom: calc(50px + 3vw);">
+    <div class="catagory mb-3 mb-lg-5">
+        <div class="d-flex align-items-center">
+           <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Home</h3>
+           <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+           <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Course</h3>
+           <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+           <h3 class="mb-0 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Profile</h3>
+        </div>
+    </div>
+
+    <div class="col-12 user-profile mb-4 mb-lg-5">
+
+        <div class="row align-items-center mb-3 mb-lg-5">
+            <div class="col-12 col-md-3 col-lg-2 d-flex justify-content-center justify-content-md-start p-0">
+                <div class="rounded-circle overflow-hidden bg-dark mb-3 mb-md-0" style="width: calc(3.8rem + 7vw);height: calc(3.8rem + 7vw);">
+                    <% if (userData.userPicture) { %>
+                        <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= userData.userPicture %>" alt="User Picture">
+                        <% } else { %>
+                        <img class="w-100 h-100 object-fit-cover" src="/images/uploads/default.jpg" alt="Default Picture">
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8 d-flex flex-column align-items-center align-items-md-start">
+                <h1 class="mb-0" style="font-size: calc(1rem + 0.7vw);"><%= userData.username %></h1>
+                <div class="d-flex align-items-center text-body-secondary">
+                    <img class="me-2 me-lg-3" style="width: calc(3.8rem + 1.5vw);" src="/icons/star-group.svg">
+                    <p class="mb-0" style="font-size: calc(0.7rem + 0.5vw);">4.5 <span>(125)</span></p>
+                </div>
+                <p class="mb-0 text-center text-md-start" style="font-size: calc(1rem + 0.3vw);"><%= userData.userBio ? userData.userBio : "No bio available" %></p>
+    
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-geo-alt me-3"></i>
+                  <p class="mb-0" style="font-size: 1.1rem;">Location : <span class="fw-medium">Pakistan</span></p>
+                </div>
+                <div class="d-flex align-items-center">
+                  <img class="me-3" style="width: 18px;" src="/icons/language.svg">
+                  <p class="mb-0" style="font-size: 1.1rem;">Languages : <span class="fw-medium"><%= userData.language ? userData.language : "English" %></span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-11 about-user mb-lg-4">
+            <h5 class="me-3 me-lg-4" style="font-size: calc(1rem + 0.5vw);">About me</h5>
+            <pre class="text-body-secondary" style="font-size: calc(0.8rem + 0.4vw);"><%= userData.aboutUser ? userData.aboutUser : "No User info." %></pre>
+        </div>
+
+        <div class="col-12 about-skills">
+          <h5 class="me-3 me-lg-4 mb-3" style="font-size: calc(1rem + 0.5vw);">Relative Skills</h5>
+            <div class="col-12 col-lg-10 col-xl-8">
+                <div class="row g-2">
+                  
+                  <!-- Selected skills will appear here -->
+
+                  <% if (userData.skills && userData.skills.length > 0 && userData.skills.some(skill => skill.trim() !== '')) { %>
+                    <% userData.skills.forEach(skill => { %>
+                        <% if (skill.trim() !== '') { %> 
+                            <div style="width: fit-content;">
+                                <button style="font-size: calc(0.7rem + 0.3vw); padding: 8px 25px; border-color: #828386;" class="rounded-1 text-dark-emphasis bg-transparent">
+                                    <%= skill %>
+                                </button>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                <% } else { %>
+                    <p class="mb-0 fs-5 text-dark-emphasis">No skills added yet.</p>
+                <% } %>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12">
+        <div class="col-12 d-flex align-items-center justify-content-between mb-3 mb-lg-4">
+            <h1 class="mb-0" style="font-size: calc(1.2rem + 0.8vw);">Courses</h1>
+        </div>
+
+        <div class="col-12">
+            <div class="row g-3">
+
+              <% if (courses.length > 0) { %>
+                <% courses.forEach(course => { %>
+
+                    <div class="col-12 col-md-6 col-lg-4 col-xxl-3" style="cursor: pointer;">
+                        <a href="/courses/single-course/<%= course._id %>">
+                            <div class="card border p-2 rounded-3" style="background-color: #E3E3E3;">
+                                <div class="card-img rounded-3 overflow-hidden mb-2" style="height: calc(23vh + 4vw);">
+                                    <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= course.image %>">
+                                </div>
+                                <div class="card-body p-0">
+                                    <h5 class="card-title mb-1" style="font-size: calc(16px + 0.2vw);"><%= course.title %></h5>
+                                    <p class="card-text text-body-secondary mb-1" style="font-size: calc(0.8rem + 0.07vw);"><%= course.paragraph %></p>
+                                    <p class="mb-1" style="font-size: 15px;"><span class="text-body-secondary">By </span><%= owner.username %></p>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <img class="me-2" style="width: 14px;" src="/icons/progress-level.svg">
+                                        <p class="mb-0" style="font-size: 15px;"><span class="text-body-secondary">Level : </span><%= course.level %></p>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <p class="mb-0 me-2">$<%= course.price.toFixed(2) %></p>
+                                        <p class="mb-0" style="color: rgb(2, 206, 2);"><s>$<%= course.discount.toFixed(2) %></s></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                <% }) %>
+              <% } else { %>
+                <div class="col-12">
+                  <p class="mb-0 fs-5 text-dark-emphasis">No Courses are avaliable.</p>
+                </div>
+              <% } %>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('./partials/footer.ejs')  %>

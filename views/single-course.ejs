@@ -1,0 +1,337 @@
+<%- include('./partials/header.ejs')  %>
+<%- include('./partials/navbar.ejs')  %>
+
+<!-- <p>Total Duration: <%= course.totalDuration %></p> -->
+
+
+<div class="container p-lg-0 text-dark single-course" style="margin-bottom: calc(50px + 3vw);">
+    <div class="catagory mb-3 mb-lg-4">
+      <div class="d-flex align-items-center">
+        <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Home</h3>
+        <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+        <h3 class="text-body-secondary mb-0 me-3 me-lg-4 fw-normal" style="font-size: calc(0.9rem + 0.1vw);">Course</h3>
+        <img class="me-3 me-lg-4" style="width: 5px;" src="/icons/arrow-right.svg">
+        <h3 class="mb-0 fw-normal select-category-name" style="font-size: calc(0.9rem + 0.1vw);">Single Course</h3>
+      </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-12 col-lg-6 d-flex flex-column align-items-center">
+            <div class="w-100 rounded-3 overflow-hidden position-relative" style="height: calc(20vh + 17vw);">
+                <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= course.image %>">
+
+                <div class="video w-100 h-100 bg-dark bg-opacity-25 d-flex align-items-center justify-content-center position-absolute top-0">
+                    <!----- Button vidoe modal ----->
+                     <button type="button" class="rounded-circle border-0 bg-dark"
+                     data-bs-toggle="modal" 
+                     data-bs-target="#exampleModal"
+                     style="width:calc(2rem + 2vw) ;height:calc(2rem + 2vw) ;">
+                        <i class="bi bi-play-fill ms-lg-1 text-white" style="font-size: calc(0.8rem + 1.2vw);"></i>
+                     </button>
+  
+                      <!----- Video Modal ----->
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                          <div class="modal-content">
+                           <div class="modal-header border-0">
+                              <div>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Course Preview</h1>
+                                <p class="mb-0"><%= course.title %></p>
+                              </div>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-footer justify-content-center pt-0 border-0">
+                              <div class="col-12 px-lg-1 mb-lg-1">
+                                <div class="w-100 rounded-3 overflow-hidden bg-black" style="height: calc(18vh + 26vw);">
+                                  <video class="w-100 h-100" controls>
+                                    <source src="/images/uploads/<%= course.video %>">
+                                  </video>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-8 d-flex flex-column align-items-center align-items-md-start" style="position: relative;top: -10%;">
+              <div class="p-2 rounded-2 mb-2 bg-white" style="width:calc(80px + 2.5vw); height:calc(80px + 2.5vw);">
+                <div class="col-12 h-100 bg-dark">
+                  <% if (userData.userPicture) { %>
+                    <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= userData.userPicture %>">
+                    <% } else { %>
+                    <img class="w-100 h-100 object-fit-cover" src="/images/uploads/default.jpg" alt="Default Picture">
+                  <% } %>
+                </div>
+              </div>
+              <p class="mb-0" style="font-size: calc(1rem + 0.2vw);">A course by <a href="/courses/profile/<%= userData.username %>"><span class="text-dark fw-medium"><%= course.ownerName %></span></a></p>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6 px-lg-5 mt-lg-2 mb-3 mb-lg-0">
+          <div class="d-flex align-items-end mb-3">
+            <h1 class="fs-3 mb-0"><%= course.price.toFixed(2) %></h1>
+            <p class="ms-2" style="margin-bottom: calc(0px + 0.1vw);">USD</p>
+          </div>
+
+          <div class="col-md-10 d-flex border border-dark-subtle rounded-3 mb-3 mb-lg-4">
+            <div class="col-6 border-end border-dark-subtle py-2 d-flex align-items-center">
+              <img class="mx-3 mx-lg-4" style="width: 21px;" src="/icons/lesson.svg">
+              <div>
+                <p class="mb-0 text-body-secondary" style="font-size: 15px;line-height: 20px;">LESSONS</p>
+                <p class="mb-0" style="font-size: 15px;line-height: 20px;"><%= course.totalLectures %></p>
+              </div>
+            </div>
+            <div class="col-6 py-2 d-flex align-items-center">
+              <img class="mx-3 mx-lg-4" style="width: 21px;" src="/icons/defficulty.svg">
+              <div>
+                <p class="mb-0 text-body-secondary" style="font-size: 15px;line-height: 20px;">DEFFICULTY</p>
+                <p class="mb-0" style="font-size: 15px;line-height: 20px;">Modorate</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 mb-3 mb-lg-4">
+
+            <div class="d-flex align-items-center mb-2 mb-lg-3">
+              <img class="me-3" style="width: 23px;" src="/icons/student.svg">
+              <p class="mb-0" style="font-size: 1.1rem;">Student : <span class="fw-medium">2179</span></p>
+            </div>
+            <div class="d-flex align-items-center mb-2 mb-lg-3">
+              <img class="me-3" style="width: 23px;" src="/icons/language.svg">
+              <p class="mb-0" style="font-size: 1.1rem;">Language : <span class="fw-medium"><%= course.language %></span></p>
+            </div>
+            <div class="d-flex align-items-center mb-2 mb-lg-3">
+              <img class="me-3" style="width: 19px;" src="/icons/resources.svg">
+              <p class="mb-0" style="font-size: 1.1rem;margin-left: 3px;">Additional resources : <span class="fw-medium"><%= course.totalLectures %> files</span></p>
+            </div>
+            <div class="d-flex align-items-center mb-2 mb-lg-3">
+              <img class="me-3" style="width: 23px;" src="/icons/duration.svg">
+              <p class="mb-0" style="font-size: 1.1rem;">Duration : <span class="fw-medium">12h 50m</span></p>
+            </div>
+            <div class="d-flex align-items-center mb-2 mb-lg-3">
+              <img class="me-3" style="width: 23px;" src="/icons/session.svg">
+              <p class="mb-0" style="font-size: 1.1rem;">Critique Session : <span class="fw-medium">individual recordings</span></p>
+            </div>
+            <div class="d-flex align-items-center mb-2 mb-lg-3">
+              <img class="me-3" style="width: 23px;" src="/icons/certificate.svg">
+              <p class="mb-0" style="font-size: 1.1rem;">Certificate : <span class="fw-medium">Upon completion of the course</span></p>
+            </div>
+
+          </div>
+
+          <div class="col-12 col-xl-10 d-flex flex-wrap flex-md-nowrap">
+
+            <div class="col-12 <%= course.price > 0 ? 'col-md-6' : '' %>  me-md-2 mb-3 mb-md-0">
+              <a href="/courses/single-course/enroll/<%= course._id %>">
+                <button type="button" class="w-100 btn btn-primary rounded-3 d-flex align-items-center justify-content-center" style="height: 55px;">
+                  <img class="me-3" style="width: 20px;" src="/icons/enroll.svg">
+                  <p class="mb-0 fw-light">
+                    <%= isEnrolled ? 'Go to course' : 'Enroll a course' %>
+                  </p>
+                </button>
+              </a>
+            </div>
+
+            <% if (course.price > 0) { %>
+            <div class="col-12 col-md-6 ms-md-2">
+              <% let isInCart = user && user.cart ? user.cart.includes(course._id.toString()) : false; %>
+              <a href="<%= isInCart ? '/cart' : `/courses/single-course/addtocart/${course._id}` %>" class="text-decoration-none">
+                  <button type="button" 
+                      class="w-100 btn <%= isInCart ? 'btn-primary' : 'btn-outline-primary' %> rounded-3 d-flex align-items-center justify-content-center cart <%= isInCart ? 'in-cart' : '' %>" 
+                      style="height: 55px;">
+                      <img class="me-3 cart-icon cart-blue" style="width: 20px;" src="/icons/cart.svg">
+                      <img class="me-3 cart-icon cart-white" style="width: 20px;" src="/icons/cart-white.svg">
+                      <p class="mb-0"><%= isInCart ? 'Go to cart' : 'Add to cart' %></p>
+                  </button>
+              </a>
+            </div>
+            <% } %>
+          </div>
+
+        </div>
+
+        <div class="col-12 col-lg-6 mb-4 mb-lg-5">
+          <h1 class="text-break mb-2 fw-normal" style="font-size: calc(1.1rem + 0.7vw);"><%= course.title %></h1>
+          <p class="text-break text-dark-emphasis mb-3" style="font-size: calc(1rem + 0.3vw);"><%= course.paragraph %></p>
+          
+          <h3 class="fw-normal mb-3" style="font-size: calc(1.1rem + 0.4vw);">Course table of contents</h3>
+
+          <div class="accordion border border-light-subtle rounded-3 overflow-hidden" id="accordionFlushExample">
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <% if (course.content && course.content.length > 0) { %>
+                <% course.content.forEach(function(section, index) { %>
+                  <div class="accordion-item bg-body-secondary text-secondary-emphasis">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<%= index %>" aria-expanded="false" aria-controls="flush-collapse<%= index %>">
+                        <%= section.sectionTitle %>
+                      </button>
+                    </h2>
+                    <div id="flush-collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                      <div class="accordion-body">
+                        <% if (section.lectures && section.lectures.length > 0) { %>
+                      
+                            <% section.lectures.forEach(function(lecture) { %>
+                              <div class="col-12 mb-1">
+                                <%= lecture.lectureTitle %>
+                              </div>
+                            <% }); %>
+                        
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                <% }); %>
+              <% } %>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-12 col-lg-6 px-lg-5 mt-lg-1 mb-4 mb-lg-0">
+          <h3 class="fw-normal" style="font-size: calc(1.1rem + 0.6vw);">What you’ll learn</h3>
+
+          <div class="col-12 text-dark-emphasis mb-4 mb-lg-5">
+
+            <% if (course.learning && course.learning.length > 0) { %>
+              <% course.learning.forEach(function(point) { %>
+                <p class="mb-2" style="font-size: calc(1rem + 0.2vw);">
+                  <span class="me-3" style="font-size: calc(1rem + 0.1vw);">
+                    <i class="bi bi-check-lg"></i>
+                  </span><%= point %>
+                </p>
+              <% }); %>
+            <% } %>
+
+          </div>
+
+          <h3 class="fw-normal mb-3" style="font-size: calc(1.1rem + 0.6vw);">Explore relative topics</h3>
+
+          <div class="col-12">
+            <div class="row g-1 g-lg-2">
+
+              <% if (course.topics && course.topics.length > 0) { %>
+                <% course.topics.forEach(function(topic) { %>
+                    <div style="width: fit-content;">
+                      <button style="font-size: calc(0.9rem + 0.2vw); padding: 8px 25px; border-color: #828386;" class="rounded-1 text-dark-emphasis bg-transparent"><%= topic %></button>
+                    </div>
+                <% }); %>
+                <% } %>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-12 mb-4 mb-lg-5">
+
+          <div class="col-12 mb-3 mb-lg-4">
+            <h3 class="fw-normal" style="font-size: calc(1.1rem + 0.4vw);">Requirements</h3>
+            <div class="text-dark-emphasis" style="font-size: calc(1rem + 0.2vw);">
+              <% if (course.requirement && course.requirement.length > 0) { %>
+                <% course.requirement.forEach(function(skill) { %>
+                  <li><%= skill %></li>
+                <% }); %>
+              <% } else { %>
+                <li>User not need any requirement.</li>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <h3 class="fw-normal" style="font-size: calc(1.1rem + 0.4vw);">Descriptions</h3>
+            <div class="text-dark-emphasis" style="font-size: calc(1rem + 0.2vw);">
+<pre class="course-description" id="course-description" style="font-size: calc(1rem + 0.2vw);"><%= course.description %></pre>
+
+<span class="read-more text-primary py-2" id="read-more-btn" style="cursor: pointer;">Read More</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-12">
+          <h3 class="fw-medium mb-3 mb-lg-4" style="font-size: calc(1.1rem + 1vw);">User review</h3>
+
+          <div class="row row-cols-1 row-cols-md-2 g-3" id="reviewContainer">
+
+            <% if (course.reviews.length > 0) { %>
+              <% course.reviews.reverse().forEach(review => { %>
+                <div class="col review-card">
+                  <div class="card p-3 p-lg-4 border-0 bg-body-secondary">
+            
+                    <!-- Reviewer Info -->
+                    <div class="col-12 mb-3 d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <div class="bg-dark rounded-circle overflow-hidden me-3" style="width:calc(40px + 0.6vw);height:calc(40px + 0.6vw);">
+                          <img class="w-100 h-100 object-fit-cover" src="/images/uploads/<%= review.user?.userPicture || '/default.jpg' %>" alt="">
+                        </div>
+                        <div>
+                          <p class="mb-0 fw-normal lh-1" style="font-size: calc(0.8rem + 0.4vw);">
+                            <%= review.user?.username || 'Anonymous' %>
+                          </p>
+                          <span class="text-body-secondary lh-1" style="font-size: calc(10px + 0.3vw);">
+                            <%= new Date(review.date).toLocaleDateString() %> at <%= new Date(review.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+                          </span>
+                        </div>
+                      </div>
+            
+                      <!-- Star Rating -->
+                      <div class="d-flex align-items-center"  style="font-size: calc(0.6rem + 0.4vw);">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                          <i class="bi <%= i <= review.rating ? 'bi-star-fill text-warning ms-1' : 'bi-star text-secondary ms-1' %>"></i>
+                        <% } %>
+                      </div>
+                    </div>
+            
+                    <!-- Review Text -->
+                    <div class="card-body p-0 mb-2">
+                      <p class="card-text text-body-secondary" style="font-size: calc(0.8rem + 0.3vw);">
+                        <%= review.reviewText %>
+                      </p>
+                    </div>
+            
+                    <!-- Like Section (optional/static) -->
+                    <div class="d-flex align-items-center feedback-card" data-review-id="<%= review._id %>" style="font-size: calc(1rem + 0.1vw);">
+                      <p class="mb-0 me-3 me-lg-4">Helpful?</p>
+                      <div class="d-flex align-items-center">
+                        <div class="thumb thumb-up border border-secondary rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: calc(30px + 0.3vw); height: calc(30px + 0.3vw); cursor: pointer;">
+                          <i class="bi bi-hand-thumbs-up text-body-secondary"></i>
+                        </div>
+                        <div class="thumb thumb-down border border-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: calc(30px + 0.3vw); height: calc(30px + 0.3vw); cursor: pointer;">
+                          <i class="bi bi-hand-thumbs-down text-body-secondary mt-1"></i>
+                        </div>
+                      </div>
+                    </div>
+            
+                  </div>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <div class="col-12">
+                <p class="text-body-secondary mb-0" style="font-size: calc(0.8rem + 0.3vw);">No reviews yet. Be the first to write a review!</p>
+              </div>
+            <% } %>
+
+          </div>
+
+          <div class="d-flex mt-4 mt-lg-5" style="width: fit-content;">
+            <button id="showMoreBtn" style="font-size: calc(0.8rem + 0.2vw);padding: 8px 25px; border-color: #828386;" class="rounded-1 text-dark-emphasis bg-transparent me-2">
+              Show more reviews
+            </button>
+            <button id="showLessBtn" style="display: none; font-size: calc(0.8rem + 0.2vw);padding: 8px 25px; border-color: #828386;" class="rounded-1 text-dark-emphasis bg-transparent">
+              Show less
+            </button>
+          </div>
+
+        </div>
+
+    </div>
+</div>
+
+<%- include('./partials/footer.ejs')  %>

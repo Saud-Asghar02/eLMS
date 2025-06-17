@@ -669,7 +669,7 @@ width: 100%;
 }
 
 @media (max-width: 992px) {
-    .login-section .carosual-section {
+    .login-section .carosual-section, .register-section .carosual-section {
         display: none;
     }
 }

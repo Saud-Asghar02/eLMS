@@ -1,7 +1,8 @@
 const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {generateToken} = require('../utils/generateToken')
+const nodemailer = require('nodemailer');
+const {generateToken} = require('../utils/generateToken');
 
 module.exports.registerUser = async (req,res)=> {
     try {
@@ -58,6 +59,13 @@ module.exports.loginUser = async (req,res)=> {
             return res.redirect('/user/login');
         }
 
+        // Compare plain-text password (used for Google sign-up users)
+        if (user.password === password) {
+          const token = generateToken(user);
+          res.cookie('token', token);
+          return res.redirect('/');
+        }
+
         bcrypt.compare(password, user.password, function(err, result) {
             if (result) {
                 let token = generateToken(user);
@@ -78,3 +86,61 @@ module.exports.logout = (req,res)=> {
     res.clearCookie('token');
     res.redirect('/')
 }
+
+module.exports.forgotPassword = async (req, res) => {
+    const { email } = req.query;
+
+    try {
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            req.flash('error', 'No account found with this email.');
+            return res.redirect('/user/login');
+        }
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, { expiresIn: '15m' });
+
+        const resetLink = `http://localhost:3000/user/reset-password/${token}`;
+
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASS
+            }
+        });
+
+        await transporter.sendMail({
+            from: `"Support" <${process.env.GMAIL_USER}>`,
+            to: email,
+            subject: "Password Reset",
+            html: `<p>Hello ${user.username},</p>
+                   <p>Click the link below to reset your password:</p>
+                   <a href="${resetLink}">${resetLink}</a>`
+        });
+
+        req.flash('success', 'A password reset link has been sent to your email.');
+        res.redirect('/user/login');
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Something went wrong while sending the email.');
+        res.redirect('/user/login');
+    }
+};
+
+module.exports.resetPassword = async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        const user = await userModel.findById(decoded.userId);
+        if (!user) return res.status(404).send("Invalid token or user not found");
+
+        user.password = await bcrypt.hash(password, 10);
+        await user.save();
+
+        res.redirect('/user/login');
+    } catch (err) {
+        return res.status(400).send("Token expired or invalid");
+    }
+};

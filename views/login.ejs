@@ -1,7 +1,8 @@
 <%- include('./partials/header.ejs')  %>
 
 <style>
-#errorMessage {
+#successMessage, #errorMessage,
+#flashError {
     position: absolute;
     top: 0;
     z-index: 3;
@@ -10,7 +11,8 @@
     justify-content: center;
 }
 
-#errorMessage .error {
+#successMessage .error, #errorMessage .error,
+#flashError .error{
     min-height: 60px;
     background-color: #FCDAD8;
     display: flex;
@@ -18,10 +20,35 @@
     justify-content: center;
 }
 
+#successMessage .error {
+    background-color: #ddf4ea;
+}
+
 .footer {
     display: none;
 }
 </style>
+
+<% if (success.length > 0) { %> 
+    <div class="container-fluid position-absolute" id="successMessage">
+        <div class="success px-3 px-md-4 rounded-3 d-flex align-items-center">
+            <i class="bi bi-cloud-check mt-lg-1 fs-4 text-success me-2 me-md-3"></i>
+            <span class="text-success text-center"> <%- success %> </span>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+<% } %>
 
 <% if (error.length > 0) { %> 
     <div class="container-fluid position-absolute" id="errorMessage">
@@ -43,6 +70,13 @@
         });
     </script>
 <% } %>
+
+<div class="container-fluid position-absolute d-none" id="flashError">
+    <div class="error px-4 rounded-3 d-flex align-items-center">
+        <i class="bi bi-exclamation-triangle text-danger fs-5 me-3" style="font-weight: 900;"></i>
+        <span class="text-danger text-center" id="flashErrorText"></span>
+    </div>
+</div>
 
 <div class="container w-100 h-100 position-relative login-section">
     <div class="row h-100 d-flex align-items-center">
@@ -90,7 +124,9 @@
                     </div>
                 </div>
 
-                <p class="mb-4" style="cursor: pointer;">Forget Password?</p>
+                <button id="forgetPasswordBtn" type="button" class="border-0 bg-transparent mb-2">
+                    <p>Forget Password?</p>
+                </button>
 
                 <div class="row g-2 mb-3">
                     <div class="col-sm-6">
@@ -100,12 +136,12 @@
                         </button>
                     </div>
                     <div class="col-sm-6">
-                        <button type="button" class="btn bg-body-secondary col-12 rounded-2"
-                        style="padding-block: 0.7rem;">
-                        <img src="/icons/google.svg" class="me-2"
-                        style="width: 25px;height: 25px;">
-                            Sign in with google
-                        </button>
+                        <a href="/auth/google">
+                            <button type="button" class="btn bg-body-secondary col-12 rounded-2" style="padding-block: 0.7rem;">
+                                <img src="/icons/google.svg" class="me-2" style="width: 25px;height: 25px;">
+                                 Sign in with google
+                            </button>
+                        </a>
                     </div>
                 </div>
 
@@ -189,5 +225,29 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+document.getElementById('forgetPasswordBtn').addEventListener('click', function () {
+    const emailInput = document.getElementById('EmailFormInput').value.trim();
+
+    if (!emailInput) {
+        const flashError = document.getElementById('flashError');
+        const flashErrorText = document.getElementById('flashErrorText');
+
+        flashErrorText.textContent = 'Please enter your email to reset your password.';
+        flashError.classList.remove('d-none');
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            flashError.classList.add('d-none');
+        }, 5000);
+    } else {
+        // Proceed to forgot-password page with email
+        window.location.href = `/user/forgot-password?email=${encodeURIComponent(emailInput)}`;
+    }
+});
+</script>
 
 <%- include('./partials/footer.ejs')  %>

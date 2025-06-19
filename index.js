@@ -34,7 +34,13 @@ app.use(expressSession({
     secret : 'node.js',
     resave : false,
     saveUninitialized : false,
-}))
+}));
+const passport = require('passport');
+require('./config/passport');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
@@ -44,5 +50,9 @@ app.use('/owner', ownerRoute);
 app.use('/courses', courseRoute);
 app.use('/user', userRoute);
 app.use("/api/chatbot", chatbotRoute);
+
+const googleAuthRoute = require('./routes/authRoute');
+app.use('/', googleAuthRoute);
+
 
 app.listen(3000);

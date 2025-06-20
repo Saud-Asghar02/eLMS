@@ -11,17 +11,13 @@
     justify-content: center;
 }
 
-#successMessage .error, #errorMessage .error,
+#successMessage .success, #errorMessage .error,
 #flashError .error{
     min-height: 60px;
     background-color: #FCDAD8;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-#successMessage .error {
-    background-color: #ddf4ea;
 }
 
 .footer {
@@ -31,7 +27,7 @@
 
 <% if (success.length > 0) { %> 
     <div class="container-fluid position-absolute" id="successMessage">
-        <div class="success px-3 px-md-4 rounded-3 d-flex align-items-center">
+        <div class="success px-3 px-md-4 rounded-3 d-flex align-items-center" style="background-color: #ddf4ea;">
             <i class="bi bi-cloud-check mt-lg-1 fs-4 text-success me-2 me-md-3"></i>
             <span class="text-success text-center"> <%- success %> </span>
         </div>

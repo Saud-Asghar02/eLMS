@@ -27,11 +27,6 @@ passport.use(new GoogleStrategy({
           username: profile.displayName,
           email: email,
           password: hashedPassword,
-          userPicture: '',        // optional: use profile.photos[0]?.value
-          userBio: '',
-          aboutUser: '',
-          language: '',
-          skills: '',
         });
 
         await user.save();

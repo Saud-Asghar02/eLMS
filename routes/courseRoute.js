@@ -110,13 +110,43 @@ router.get('/single-course/:id', loggedIn, async (req, res) => {
     }
 });
 
+// router.get('/profile/:username', loggedIn, async (req, res) => {
+//     try {
+//         const userInfo = await userModel.findOne({ username: req.params.username });
+
+//         if (!userInfo) {
+//             return res.status(404).send('User not found');
+//         }
+
+//         const owner = await ownerModel.findOne({ userID: userInfo._id }).populate({
+//             path: 'courses',
+//             model: 'courses',
+//             populate: {
+//                 path: 'owner',
+//                 model: 'owner'
+//             }
+//         });
+
+//         let userCartInfo = null;
+//         if (req.user) {
+//             userCartInfo = await userModel.findOne({ email: req.user.email }).populate('cart');
+//         }
+
+//         res.render('profile', {
+//             userData : userInfo,
+//             owner,
+//             courses: owner ? owner.courses : [],
+//             userCartInfo
+//         });
+//     } catch (error) {
+//         res.status(500).send('Server Error');
+//     }
+// });
+
 router.get('/profile/:username', loggedIn, async (req, res) => {
     try {
         const userInfo = await userModel.findOne({ username: req.params.username });
-
-        if (!userInfo) {
-            return res.status(404).send('User not found');
-        }
+        if (!userInfo) return res.status(404).send('User not found');
 
         const owner = await ownerModel.findOne({ userID: userInfo._id }).populate({
             path: 'courses',
@@ -132,13 +162,40 @@ router.get('/profile/:username', loggedIn, async (req, res) => {
             userCartInfo = await userModel.findOne({ email: req.user.email }).populate('cart');
         }
 
+        // ✅ Calculate average rating and total enrollments
+        let totalRating = 0;
+        let totalReviews = 0;
+        let totalEnrolled = 0;
+
+        if (owner && owner.courses.length > 0) {
+            for (let course of owner.courses) {
+                // Count enrolled students
+                totalEnrolled += course.enrolledStudents?.length || 0;
+
+                // Process reviews
+                if (course.reviews && course.reviews.length > 0) {
+                    for (let review of course.reviews) {
+                        totalRating += review.rating;
+                    }
+                    totalReviews += course.reviews.length;
+                }
+            }
+        }
+
+        const averageRating = totalReviews ? (totalRating / totalReviews).toFixed(1) : 0;
+
         res.render('profile', {
-            userData : userInfo,
+            userData: userInfo,
             owner,
             courses: owner ? owner.courses : [],
-            userCartInfo
+            userCartInfo,
+            averageRating,
+            totalReviews,
+            totalEnrolled
         });
+
     } catch (error) {
+        console.error(error);
         res.status(500).send('Server Error');
     }
 });
@@ -201,6 +258,8 @@ router.get('/single-course/enroll/:courseid', isLoggedIn, loggedIn, async (req, 
             if (!alreadyEnrolled) {
                 owner.enrollStudent.push(req.user._id);
                 await owner.save();
+                course.enrolledStudents.push(req.user._id);
+                await course.save();
             }
 
             // Add the course to the user's enrolled courses

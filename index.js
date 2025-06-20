@@ -9,7 +9,6 @@ const db = require('./config/mongooseConnection');
 
 require('dotenv').config();
 
-
 const { exec } = require("child_process");
 
 // Start Python chatbot
@@ -53,6 +52,5 @@ app.use("/api/chatbot", chatbotRoute);
 
 const googleAuthRoute = require('./routes/authRoute');
 app.use('/', googleAuthRoute);
-
 
 app.listen(3000);

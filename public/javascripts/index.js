@@ -930,45 +930,56 @@ $(document).ready(function () {
         let anyFilterApplied = selectedPrices.length || selectedLanguages.length || selectedLevels.length || selectedVideos.length || selectedRatings.length;
 
         filteredCourses = $('.courses').filter(function () {
-            let price = parseFloat($(this).data('price'));
-            let language = $(this).data('language');
-            let level = $(this).data('level');
-            let duration = parseFloat($(this).data('duration'));
-            let rating = parseFloat($(this).data('rating'));
+          let price = parseFloat($(this).data('price'));
+          let language = $(this).data('language');
+          let level = $(this).data('level');
+          let rating = parseFloat($(this).data('rating'));
 
-            let priceMatch = selectedPrices.length === 0 || selectedPrices.some(id =>
-                (id === 'filter-free' && price === 0) ||
-                (id === 'filter-paid' && price > 0)
-            );
+          let durationStr = $(this).data('duration'); // example: "12h 52min"
+          let hours = 0;
 
-            let languageMatch = selectedLanguages.length === 0 || selectedLanguages.some(id =>
-                (id === 'filter-english' && language === 'English') ||
-                (id === 'filter-urdu' && language === 'Urdu') ||
-                (id === 'filter-hindi' && language === 'Hindi')
-            );
+          if (durationStr) {
+              let match = durationStr.match(/(\d+)\s*h(?:\s*(\d+)\s*min)?/i);
+              if (match) {
+                  let h = parseInt(match[1]) || 0;
+                  let m = parseInt(match[2]) || 0;
+                  hours = h + m / 60;
+              }
+          }
 
-            let levelMatch = selectedLevels.length === 0 || selectedLevels.some(id =>
-                (id === 'filter-beginner' && level === 'Beginner') ||
-                (id === 'filter-intermediate' && level === 'Intermediate') ||
-                (id === 'filter-expert' && level === 'Expert')
-            );
+          let priceMatch = selectedPrices.length === 0 || selectedPrices.some(id =>
+              (id === 'filter-free' && price === 0) ||
+              (id === 'filter-paid' && price > 0)
+          );
 
-            let videoMatch = selectedVideos.length === 0 || selectedVideos.some(id =>
-                (id === 'filter-0-1' && duration <= 1) ||
-                (id === 'filter-1-3' && duration > 1 && duration <= 3) ||
-                (id === 'filter-3-6' && duration > 3 && duration <= 6) ||
-                (id === 'filter-6-17' && duration > 6 && duration <= 17) ||
-                (id === 'filter-17-plus' && duration > 17)
-            );
+          let languageMatch = selectedLanguages.length === 0 || selectedLanguages.some(id =>
+              (id === 'filter-english' && language === 'English') ||
+              (id === 'filter-urdu' && language === 'Urdu') ||
+              (id === 'filter-hindi' && language === 'Hindi')
+          );
 
-            let ratingMatch = selectedRatings.length === 0 || selectedRatings.some(id =>
-                (id === 'filter-4.5' && rating >= 4.5) ||
-                (id === 'filter-4.0' && rating >= 4.0) ||
-                (id === 'filter-3.5' && rating >= 3.5) ||
-                (id === 'filter-3.0' && rating >= 3.0)
-            );
+          let levelMatch = selectedLevels.length === 0 || selectedLevels.some(id =>
+              (id === 'filter-beginner' && level === 'Beginner') ||
+              (id === 'filter-intermediate' && level === 'Intermediate') ||
+              (id === 'filter-expert' && level === 'Expert')
+          );
 
-            return priceMatch && languageMatch && levelMatch;
+          let videoMatch = selectedVideos.length === 0 || selectedVideos.some(id =>
+              (id === 'filter-0-1' && hours <= 1) ||
+              (id === 'filter-1-3' && hours > 1 && hours <= 3) ||
+              (id === 'filter-3-6' && hours > 3 && hours <= 6) ||
+              (id === 'filter-6-17' && hours > 6 && hours <= 17) ||
+              (id === 'filter-17-plus' && hours > 17)
+          );
+
+          let ratingMatch = selectedRatings.length === 0 || selectedRatings.some(id =>
+              (id === 'filter-4.5' && rating >= 4.5) ||
+              (id === 'filter-4.0' && rating >= 4.0) ||
+              (id === 'filter-3.5' && rating >= 3.5) ||
+              (id === 'filter-3.0' && rating >= 3.0)
+          );
+
+            return priceMatch && languageMatch && levelMatch && videoMatch && ratingMatch;
         });
 
         applyPagination();

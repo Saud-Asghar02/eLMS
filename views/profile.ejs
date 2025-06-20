@@ -28,9 +28,33 @@
             <div class="col-12 col-md-8 d-flex flex-column align-items-center align-items-md-start">
                 <h1 class="mb-0" style="font-size: calc(1rem + 0.7vw);"><%= userData.username %></h1>
                 <div class="d-flex align-items-center text-body-secondary">
-                    <img class="me-2 me-lg-3" style="width: calc(3.8rem + 1.5vw);" src="/icons/star-group.svg">
-                    <p class="mb-0" style="font-size: calc(0.7rem + 0.5vw);">4.5 <span>(125)</span></p>
+                    <!-- Star icons -->
+                    <div class="me-2 me-lg-3 d-flex align-items-center">
+                        <% 
+                          const fullStars = Math.floor(averageRating);
+                          const hasHalfStar = averageRating - fullStars >= 0.5;
+                          const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                        %>
+
+                        <% for (let i = 0; i < fullStars; i++) { %>
+                            <i class="fas fa-star text-warning" style="font-size: calc(0.7rem + 0.3vw);"></i>
+                        <% } %>
+
+                        <% if (hasHalfStar) { %>
+                            <i class="fas fa-star-half-stroke text-warning" style="font-size: calc(0.7rem + 0.3vw);"></i>
+                        <% } %>
+
+                        <% for (let i = 0; i < emptyStars; i++) { %>
+                            <i class="far fa-star text-warning" style="font-size: calc(0.7rem + 0.3vw);"></i>
+                        <% } %>
+                    </div>
+
+                    <!-- Rating value -->
+                    <p class="mb-0" style="font-size: calc(0.7rem + 0.4vw);">
+                        <%= averageRating %> <span>(<%= totalReviews %>)</span>
+                    </p>
                 </div>
+
                 <p class="mb-0 text-center text-md-start" style="font-size: calc(1rem + 0.3vw);"><%= userData.userBio ? userData.userBio : "No bio available" %></p>
     
                 <div class="d-flex align-items-center">

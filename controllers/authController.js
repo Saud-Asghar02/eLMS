@@ -82,23 +82,43 @@ module.exports.loginUser = async (req,res)=> {
     }
 };
 
-module.exports.logout = (req,res)=> {
-    res.clearCookie('token');
-    res.redirect('/')
-}
+module.exports.logout = async (req, res) => {
+    try {
+        // Passport v0.6+ requires a callback
+        req.logout((err) => {
+            if (err) {
+                console.error('Logout Error:', err);
+                return res.redirect('/'); // or show error page
+            }
+
+            // Destroy session if it exists
+            if (req.session) {
+                req.session.destroy((err) => {
+                    if (err) console.error('Session destroy error:', err);
+                });
+            }
+
+            res.clearCookie('token');
+            res.redirect('/');
+        });
+    } catch (error) {
+        console.error('Logout failed:', error);
+        res.redirect('/');
+    }
+};
 
 module.exports.forgotPassword = async (req, res) => {
     const { email } = req.query;
 
     try {
         const user = await userModel.findOne({ email });
+
         if (!user) {
             req.flash('error', 'No account found with this email.');
             return res.redirect('/user/login');
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, { expiresIn: '15m' });
-
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, { expiresIn: '10m' });
         const resetLink = `http://localhost:3000/user/reset-password/${token}`;
 
         const transporter = nodemailer.createTransport({
@@ -110,37 +130,51 @@ module.exports.forgotPassword = async (req, res) => {
         });
 
         await transporter.sendMail({
-            from: `"Support" <${process.env.GMAIL_USER}>`,
+            from: `"eLMS" <${process.env.GMAIL_USER}>`,
             to: email,
             subject: "Password Reset",
             html: `<p>Hello ${user.username},</p>
                    <p>Click the link below to reset your password:</p>
-                   <a href="${resetLink}">${resetLink}</a>`
+                   <a href="${resetLink}">${resetLink}</a>
+                   <p>This link will expire in 10 minutes.</p>`
         });
 
         req.flash('success', 'A password reset link has been sent to your email.');
         res.redirect('/user/login');
     } catch (error) {
-        console.error(error);
         req.flash('error', 'Something went wrong while sending the email.');
         res.redirect('/user/login');
     }
 };
 
 module.exports.resetPassword = async (req, res) => {
-    const { token } = req.params;
-    const { password } = req.body;
+  const { token } = req.params;
+  const { newPassword, confirmNewPassword } = req.body;
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_KEY);
-        const user = await userModel.findById(decoded.userId);
-        if (!user) return res.status(404).send("Invalid token or user not found");
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
 
-        user.password = await bcrypt.hash(password, 10);
-        await user.save();
-
-        res.redirect('/user/login');
-    } catch (err) {
-        return res.status(400).send("Token expired or invalid");
+    // Check if passwords match
+    if (newPassword !== confirmNewPassword) {
+      req.flash('error', 'Passwords do not match.');
+      return res.redirect(`/user/reset-password/${token}`);
     }
+
+    const user = await userModel.findById(decoded.userId);
+    if (!user) {
+      req.flash('error', 'User not found.');
+      return res.redirect('/user/login');
+    }
+
+    // Hash and save new password
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    req.flash('success', 'Password reset successfully. Please log in.');
+    res.redirect('/user/login');
+
+  } catch (err) {
+    req.flash('error', 'Your reset link has expired or is invalid.');
+    res.redirect('/user/forgot-password');
+  }
 };

@@ -51,6 +51,10 @@ const CourseSchema = mongoose.Schema({
             default: Date.now
         }
     }],
+    enrolledStudents: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+    }],
     date: {
         type: Date,
         default: Date.now()

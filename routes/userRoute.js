@@ -20,15 +20,13 @@ router.post('/login', controller.loginUser);
 router.get('/logout', controller.logout);
 
 
-
+// Reset form (verify token)
+router.get('/reset-password/:token', (req, res) => {
+    res.render('forgot-password.ejs', { error: req.flash("error"), token: req.params.token });
+});
 
 // Forget password flow
 router.get('/forgot-password', controller.forgotPassword);
-
-// Reset form (verify token)
-router.get('/reset-password/:token', (req, res) => {
-    res.render('forgot-password.ejs', { token: req.params.token });
-});
 
 // Handle new password submission
 router.post('/reset-password/:token', controller.resetPassword);
